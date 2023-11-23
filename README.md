@@ -1,12 +1,13 @@
-# demo 项目概述
+# 项目介绍
 
-acture ：是大魔王本王 @1804919062qq.com
-
+author ：是大魔王本王 @1804919062qq.com
 
 > 菜鸟自己总结的，有很多不足之处，望指正  
 > 很多地方都借鉴了大佬们，没有标注的可以联系我，谢谢！
 
 # 1. 项目介绍
+
+有关spring cloud 相关技术的整合，以及常用技术的整合。实现简单的操作等。 用于归纳自己遇到的技术以及对新技术的实践。
 
 ## 1.1 项目模块
 
@@ -29,14 +30,14 @@ product | idea |http://localhost:8888/cloud-alibaba-product/doc.html
 9. dubbo Rpc通信
 10. cos 文件存储
 
-* TODO 
+* TODO
+
 1. minio ...
 2. redis ...
 3. elasticSearch ...
 4. task ...
 5. Doris ...
 6.
-
 
 # 2. 中间件清单
 
@@ -49,15 +50,15 @@ mysql | 5.7 |192.168.1.188 |  |
 zookeeper|3.4.6| 192.168.1.250 |  |
 seata | 1.6.1 | local | E:\强者之路\soft\seata |   |
 
-*  附：  
-中间件下载链接：
->1. [seata 1.0 - 1.7](https://pan.baidu.com/s/14xyvWMiwNglzNzJbJ0AXsQ?pwd=1234)
+* 附：  
+  中间件下载链接：
+
+> 1. [seata 1.0 - 1.7](https://pan.baidu.com/s/14xyvWMiwNglzNzJbJ0AXsQ?pwd=1234)
 >2. [nacos](https://pan.baidu.com/s/1qz6aRlUnDqK1eph76zNUvQ?pwd=1234)
 >3. [es 7.3.2 ](https://pan.baidu.com/s/1lwYlde-9z434C_Yq-cSy2g?pwd=1234)
 >4. [kibana 7.3.1](https://pan.baidu.com/s/1ACkapsB5pl8oarA-4acGrw?pwd=1234)
 >5. [rabbitMQ 3.7.5](https://pan.baidu.com/s/141u3bQOPOmj7Kxpixcgnrw?pwd=1234)
 >6. [zipkin 2.23.9](https://pan.baidu.com/s/1PkWi_L2ofJUlF0oDEnlEkg?pwd=1234)
-
 
 # 3. 启动项目
 
