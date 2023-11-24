@@ -32,7 +32,7 @@ product | idea |http://localhost:8888/cloud-alibaba-product/doc.html
 
 * TODO
 
-1. minio ...
+1. minio ... 已更新
 2. redis ...
 3. elasticSearch ...
 4. task ...
@@ -49,11 +49,12 @@ zipkin | 2.23.9  | local | D:\Users\100451\zipkin | http://localhost:9411 | 启�
 mysql | 5.7 |192.168.1.188 |  |
 zookeeper|3.4.6| 192.168.1.250 |  |
 seata | 1.6.1 | local | E:\强者之路\soft\seata |   |
+minio | --- | 192.168.1.225 | /opt/bssoft/nacos | http://192.168.1.225:9001/login minioadmin\minioadmin
 
 * 附：  
   中间件下载链接：
 
-> 1. [seata 1.0 - 1.7](https://pan.baidu.com/s/14xyvWMiwNglzNzJbJ0AXsQ?pwd=1234)
+>1. [seata 1.0 - 1.7](https://pan.baidu.com/s/14xyvWMiwNglzNzJbJ0AXsQ?pwd=1234)
 >2. [nacos](https://pan.baidu.com/s/1qz6aRlUnDqK1eph76zNUvQ?pwd=1234)
 >3. [es 7.3.2 ](https://pan.baidu.com/s/1lwYlde-9z434C_Yq-cSy2g?pwd=1234)
 >4. [kibana 7.3.1](https://pan.baidu.com/s/1ACkapsB5pl8oarA-4acGrw?pwd=1234)
