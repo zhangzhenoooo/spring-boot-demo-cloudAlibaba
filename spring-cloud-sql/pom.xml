@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.zhangz.demo</groupId>
+        <artifactId>spring-cloud</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>spring-cloud-sql</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>spring-cloud-sql</name>
+    <packaging>pom</packaging>
+    <description>sql nosql</description>
+
+    <properties>
+        <com.zhangz.demo.spring.cloud.version>0.0.1-SNAPSHOT</com.zhangz.demo.spring.cloud.version>
+        <java.version>1.8</java.version>
+    </properties>
+    
+    <dependencies>
+   
+        <dependency>
+            <groupId>com.zhangz.demo</groupId>
+            <artifactId>spring-cloud-sql-elasticsearch</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

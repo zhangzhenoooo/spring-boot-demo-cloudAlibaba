@@ -1,8 +1,6 @@
 package com.zhangz.demo.spring.cloud.order.service;
 
-import com.zhangz.springbootdemocloudalibabacommon.dto.OrderDTO;
-import com.zhangz.springbootdemocloudalibabacommon.entity.Order;
-import com.zhangz.springbootdemocloudalibabacommon.entity.Product;
+import com.zhangz.spring.cloud.common.entity.Order;
 
 import java.util.List;
 

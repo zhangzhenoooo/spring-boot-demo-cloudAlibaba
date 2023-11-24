@@ -1,8 +1,8 @@
 package com.zhangz.demo.spring.cloud.order.mq;
 
 import com.zhangz.demo.spring.cloud.order.config.AliSMSProperties;
-import com.zhangz.springbootdemocloudalibabacommon.dto.AliSMSDTO;
-import com.zhangz.springbootdemocloudalibabacommon.sms.SMSUtill;
+import com.zhangz.spring.cloud.common.dto.AliSMSDTO;
+import com.zhangz.spring.cloud.common.sms.SMSUtill;
 import com.zhangz.demo.spring.cloud.order.config.MQConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Exchange;

@@ -2,7 +2,7 @@ package com.zhangz.demo.spring.cloud.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.zhangz.demo.spring.cloud.order.service.FeignProductService;
-import com.zhangz.springbootdemocloudalibabacommon.entity.Product;
+import com.zhangz.spring.cloud.common.entity.Product;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
