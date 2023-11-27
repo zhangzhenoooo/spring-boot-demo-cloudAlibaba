@@ -45,8 +45,8 @@ public class SwaggerConfiguration {
     public Docket agencyApiDoc() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enable)
-                .apiInfo(apiInfo("cloud-alibaba ", "文档中可以查询及测试接口调用参数和结果", version))
-                .select().apis(RequestHandlerSelectors.basePackage("com.zhangz.springbootdemocloudalibabaorder.controller"))
+                .apiInfo(apiInfo("cloud-alibaba-order ", "文档中可以查询及测试接口调用参数和结果", version))
+                .select().apis(RequestHandlerSelectors.basePackage("com.zhangz.demo.spring.cloud.order.controller"))
                 .paths(PathSelectors.any()).build()
                 .groupName("cloud-alibaba-order 接口目录" + version)
                 .globalOperationParameters(null);

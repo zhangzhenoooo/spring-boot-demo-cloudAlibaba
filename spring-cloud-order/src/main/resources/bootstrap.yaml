@@ -1,6 +1,18 @@
 spring:
   application:
     name: cloud-alibaba-order
+  redis:
+    database: 7
+    timeout: 2000
+    host: 192.168.1.250
+    port: 6379
+    password: bosssoft
+    jedis:
+      pool:
+        max-active: 20
+        max-wait: 100
+        max-idle: 20
+        min-idle: 1
   rabbitmq:
     host: 192.168.1.166
     port: 5672
@@ -74,8 +86,7 @@ dubbo:
     check: false
   scan:
     base-packages: com.zhangz
-      
-      
+        
 swagger:
   enable: true
   version: 1.0.0
@@ -101,3 +112,8 @@ seata:
       server-addr: 192.168.1.225:8848
       application: seata-server
       group: DEFAULT_GROUP
+      
+j2cache:
+  config-location: /j2cache.properties
+  redis-client: lettuce
+  open-spring-cache: true

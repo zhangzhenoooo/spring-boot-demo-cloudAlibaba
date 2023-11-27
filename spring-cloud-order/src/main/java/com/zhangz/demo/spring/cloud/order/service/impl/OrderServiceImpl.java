@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private RabbitTemplate rabbitTemplate;
 
     @Override
+    @Cacheable(value = {"order"}, key = "'order' + #orderId", unless = "#result?.size() == 0", sync = true) // 返回值不为空的时候才缓存
     public List<Order> getOrderById(String orderId) {
         ArrayList<Order> orders = new ArrayList<>();
         String productStr = feignProductService.getProductByName("test feign ");
@@ -48,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @GlobalTransactional(name = "cloud_alibaba_group") // 全局事务控制
-    public Order createOrder(String pid,int number) throws Exception {
+    public Order createOrder(String pid, int number) throws Exception {
         String orderId = UUIDUtils.getUUID32();
 
         // Product productById = productRPCService.getProductById(pid);
@@ -65,9 +67,9 @@ public class OrderServiceImpl implements OrderService {
         Order build = Order.builder().oid(orderId).pid(pid).pname(product.getPname()).pprice(new BigDecimal("12.7")).number(number).uid("1111111").username("1111111").build();
         orderMapper.insert(build);
         log.info("生成订单信息|{}", JSON.toJSONString(build));
-      
+
         // 扣减库存
-        feignProductService.reduceInventory(pid,number);
+        feignProductService.reduceInventory(pid, number);
 
         // 订单生成以后 发送消息通知用户 已下单
         rabbitTemplate.convertAndSend(MQConfig.ORDER_EXCHANGE, MQConfig.ORDER_RUTEKEY, "订单【" + orderId + "】已下单！");
