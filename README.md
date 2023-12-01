@@ -29,15 +29,20 @@ product | idea |http://localhost:8888/cloud-alibaba-product/doc.html
 8. seata 分布式事务
 9. dubbo Rpc通信
 10. cos 文件存储
+11. minio 文件存储
+12. redis + ehcache 二级缓存
+13. elasticSearch nosql 数据库
 
 * TODO
 
 1. minio ... 已更新
-2. redis ...
-3. elasticSearch ...
+2. redis ...已更新
+3. elasticSearch ...已更新
 4. task ...
 5. Doris ...
-6.
+6. 邮件服务...
+7. 统一登录验证...
+8. 
 
 # 2. 中间件清单
 
