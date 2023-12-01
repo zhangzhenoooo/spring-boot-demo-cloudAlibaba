@@ -1,4 +1,4 @@
-package com.zhangz.spring.cloud.common.dto;
+package com.zhangz.demo.springcloudsms.domain;
 
 import lombok.Data;
 

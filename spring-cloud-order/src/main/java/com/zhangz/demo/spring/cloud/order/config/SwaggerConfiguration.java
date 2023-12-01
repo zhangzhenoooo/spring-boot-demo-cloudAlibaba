@@ -56,7 +56,7 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo(String name, String description, String version) {
         return new ApiInfoBuilder().title(name).description(description)
-                .contact(new Contact("spring-boot-demo@zhangz", "http://localhost:8888/cloud-alibaba-product", "1804919062@qq.com"))
+                .contact(new Contact("spring-boot-demo@zhangz", "http://localhost:9999/cloud-alibaba-order", "1804919062@qq.com"))
                 .version(version).build();
     }
 }

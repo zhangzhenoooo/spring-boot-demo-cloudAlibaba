@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    @Cacheable(value = {"order"}, key = "'order' + #orderId", unless = "#result?.size() == 0", sync = true) // 返回值不为空的时候才缓存
+    @Cacheable(value = {"order"}, key = "'order' + #orderId", unless = "#result?.size() == 0") // 返回值不为空的时候才缓存
     public List<Order> getOrderById(String orderId) {
         ArrayList<Order> orders = new ArrayList<>();
         String productStr = feignProductService.getProductByName("test feign ");

@@ -1,4 +1,4 @@
-package com.zhangz.spring.cloud.common.dto;
+package com.zhangz.demo.springcloudsms.domain;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 @Data
-public class AliSMSDTO implements Serializable {
+public class AliSms implements Serializable {
     /**
      * 
      *  多个 以 ,分割

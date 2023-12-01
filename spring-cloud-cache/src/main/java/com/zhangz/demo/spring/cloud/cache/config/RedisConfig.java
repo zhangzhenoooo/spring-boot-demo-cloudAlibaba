@@ -1,4 +1,4 @@
-package com.zhangz.demo.springcloudcache.config;
+package com.zhangz.demo.spring.cloud.cache.config;
 
 import lombok.extern.slf4j.Slf4j;
 import net.oschina.j2cache.CacheChannel;

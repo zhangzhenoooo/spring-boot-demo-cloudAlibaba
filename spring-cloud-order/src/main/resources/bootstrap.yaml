@@ -1,6 +1,11 @@
 spring:
   application:
     name: cloud-alibaba-order
+  cache:
+    type: redis
+    redis:
+      use-key-prefix: true
+      key-prefix: ${spring.application.name}
   redis:
     database: 7
     timeout: 2000
@@ -69,10 +74,9 @@ spring:
 
 #暴露端点
 management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
+  server:
+    # 完全禁用
+    port: -1
 
 dubbo:
   protocol:

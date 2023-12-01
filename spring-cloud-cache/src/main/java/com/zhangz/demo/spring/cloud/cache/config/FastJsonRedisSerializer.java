@@ -1,4 +1,4 @@
-package com.zhangz.demo.springcloudcache.config;
+package com.zhangz.demo.spring.cloud.cache.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

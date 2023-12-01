@@ -150,13 +150,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-
-            <!--<dependency>-->
-            <!--    <groupId>com.h2database</groupId>-->
-            <!--    <artifactId>h2</artifactId>-->
-            <!--    <version>${com.h2database.version}</version>-->
-            <!--</dependency>-->
-            <!-- 连接池  -->
+            
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
@@ -169,8 +163,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
-
-
+            
             <!--seata相关的配置-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
