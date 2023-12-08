@@ -20,7 +20,7 @@ product | idea |http://localhost:8888/cloud-alibaba-product/doc.html
 ## 1.2 技术罗列
 
 1. nacos 注册中心 + 配置中心
-2. fegin 远程调用
+2. fegin 远程调用  
 3. Sentinel 服务容错
 4. gateway 网关
 5. Sleuth +Zinkin 链路追踪

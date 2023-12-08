@@ -4,6 +4,7 @@ import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +25,10 @@ public class FileConfig {
     public MinioClient minioClient() {
         MinioClient minioClient = MinioClient.builder().endpoint(minioRegion).credentials(minioAccessKey, minioSecretKey).build();
         createBucket(minioClient, minioBucketName);
+        minioClient.setTimeout(5 * 1000, 10 * 1000, 3 * 1000);
         return minioClient;
     }
-    
+
     /**
      * 初始化bucket
      */
