@@ -16,14 +16,14 @@ import java.util.Date;
 @Data
 public class GoodDetail implements Serializable {
 
-    private Date afterSale;
+    private String afterSale;
     private long categoryId;
     private int commission;
     private int commissionSettleType;
     private int commissionType;
     private int commissionUserType;
-    private Date dateAdd;
-    private Date dateUpdate;
+    private String dateAdd;
+    private String dateUpdate;
     private int fxType;
     private int gotScore;
     private int gotScoreType;

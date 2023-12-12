@@ -5,8 +5,10 @@ package com.zhangz.spring.cloud.common.api;
  * Created by zhangz
  */
 public enum ResultCode implements IErrorCode {
-    SUCCESS(200, "操作成功"),
+    SUCCESS(0, "操作成功"),
     FAILED(500, "操作失败"),
+    NO_DATA(700, "无数据"),
+
     VALIDATE_FAILED(404, "参数检验失败"),
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
     FORBIDDEN(403, "没有相关权限");
