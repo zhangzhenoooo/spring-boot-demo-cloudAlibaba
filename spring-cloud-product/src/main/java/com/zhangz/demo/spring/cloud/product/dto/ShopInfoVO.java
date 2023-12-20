@@ -1,6 +1,6 @@
 package com.zhangz.demo.spring.cloud.product.dto;
 
-import com.zhangz.demo.spring.cloud.product.entity.ShopDetail;
+import com.zhangz.demo.spring.cloud.product.entity.ShopInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +27,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ShopInfoVO implements Serializable {
     private String extJson;
-    private ShopDetail info;
+    private ShopInfo info;
 }

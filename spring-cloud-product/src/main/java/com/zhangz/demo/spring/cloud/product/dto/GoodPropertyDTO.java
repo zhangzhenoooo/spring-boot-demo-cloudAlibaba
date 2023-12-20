@@ -1,11 +1,13 @@
 /**
   * Copyright 2023 json.cn 
   */
-package com.zhangz.demo.spring.cloud.product.entity;
+package com.zhangz.demo.spring.cloud.product.dto;
+import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Auto-generated: 2023-12-11 17:19:51
@@ -14,7 +16,7 @@ import java.util.Date;
  * @website http://www.json.cn/java2pojo/
  */
 @Data
-public class ChildCurGood implements Serializable {
+public class GoodPropertyDTO implements Serializable {
 
     private String dateAdd;
     private long id;
@@ -22,6 +24,6 @@ public class ChildCurGood implements Serializable {
     private int paixu;
     private int propertyId;
     private int userId;
-    
+    private Set<GoodProperty> childsCurGoods;
 
 }

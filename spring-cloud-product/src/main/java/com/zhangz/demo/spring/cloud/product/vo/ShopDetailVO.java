@@ -1,10 +1,10 @@
 package com.zhangz.demo.spring.cloud.product.vo;
 
+import com.zhangz.demo.spring.cloud.product.dto.GoodPropertyDTO;
 import com.zhangz.demo.spring.cloud.product.dto.GoodSelectItem;
-import com.zhangz.demo.spring.cloud.product.entity.GoodCategoryItem;
-import com.zhangz.demo.spring.cloud.product.entity.GoodDetail;
+import com.zhangz.demo.spring.cloud.product.entity.GoodCategory;
+import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.product.entity.Logistics;
-import com.zhangz.demo.spring.cloud.product.entity.ShopDetail;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,15 +21,15 @@ import java.util.Set;
  */
 @Data
 public class ShopDetailVO implements Serializable {
-  private GoodDetail basicInfo;
-  private GoodCategoryItem category;
+  private GoodInfo basicInfo;
+  private GoodCategory category;
   private String content;
   private Logistics logistics;
   private List<Object> pics;
   private List<String> pics2;
   private String extJson = "{}";
   private String extJson2 = "{}";
-  private Set<Object> properties;
+  private Set<GoodPropertyDTO> properties;
    
   private List<GoodSelectItem> skuList;
   private List<Object> subPics;

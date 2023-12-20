@@ -4,8 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zhangz.demo.spring.cloud.product.dto.TenantConfigDTO;
 import com.zhangz.demo.spring.cloud.product.entity.Banner;
-import com.zhangz.demo.spring.cloud.product.entity.GoodCategoryItem;
-import com.zhangz.demo.spring.cloud.product.entity.ShopDetail;
+import com.zhangz.demo.spring.cloud.product.entity.ShopInfo;
 import com.zhangz.demo.spring.cloud.product.dto.ShopInfoVO;
 import com.zhangz.spring.cloud.common.api.CommonResult;
 import io.swagger.annotations.*;
@@ -42,7 +41,7 @@ public class ShopController {
         log.info("subShopDetail params  id:{}", id);
         String str =
             "{\"activity\":\"8折\",\"address\":\"北京市东城区建国门内大街8号中粮广场B座307室\",\"bindUid\":2398223,\"characteristic\":\"这是一家非常有特色的奶茶店，奶茶香甜可口，值得品尝。\",\"cityId\":\"110101000000\",\"cyTablePayMod\":1,\"dateAdd\":\"2023-12-08 16:09:37\",\"dateUpdate\":\"2023-11-01 09:39:27\",\"expressType\":\"dada\",\"goodsNeedCheck\":false,\"id\":78194,\"introduce\":\"店铺介绍\",\"latitude\":39.907082,\"linkPhone\":\"13500000000\",\"linkPhoneShow\":true,\"longitude\":116.429314,\"name\":\"东城店（中粮广场B座307室）\",\"number\":\"4217-1478883\",\"numberFav\":0,\"numberGoodReputation\":0,\"numberOrder\":-1,\"numberReputation\":0,\"openScan\":true,\"openWaimai\":true,\"openZiqu\":true,\"openingHours\":\"00:00-23:59\",\"paixu\":0,\"pic\":\"https://dcdn.it120.cc/2020/08/04/3b5c2e23-7c9c-481a-b8de-3b0cdc1c6273.jpg\",\"provinceId\":\"110000000000\",\"recommendStatus\":0,\"serviceAmountMin\":86.00,\"serviceDistance\":5.00,\"status\":1,\"statusStr\":\"正常\",\"taxGst\":0.00,\"taxService\":0.00,\"type\":\"自营\",\"userId\":59780,\"workStatus\":0}";
-        ShopDetail shopDetail = JSONObject.parseObject(str, ShopDetail.class);
+        ShopInfo shopDetail = JSONObject.parseObject(str, ShopInfo.class);
         ShopInfoVO info = ShopInfoVO.builder().extJson("{}").info(shopDetail).build();
         return CommonResult.success(info);
     }
@@ -61,27 +60,40 @@ public class ShopController {
 
     // shopping-cart/info
     // banner/list
-    @ApiOperation(value = "横幅", notes = "点餐页面，横幅展示")
-    @GetMapping("/card/info")
+    @ApiOperation(value = "购物车信息", notes = "购物车信息")
+    @GetMapping("/cart/info")
     @ResponseBody
     public CommonResult cardInfo() {
 
         Map<String, Object> result = new HashMap<>();
 
         Map<String, Object> shippingCarInfo = new HashMap<>();
-        shippingCarInfo.put("number", 1);
+        shippingCarInfo.put("number", 3);
         shippingCarInfo.put("price", 12.5);
-        // items
-        List<Map<String,Object>> items = new ArrayList<>();
         
+        // items     
+        List<Map<String,Object>> items = new ArrayList<>();      
         Map<String, Object> item = new HashMap<>();
-        item.put("name","name");
-        item.put("sku",1);
-        item.put("additions",null);
+        shippingCarInfo.put("categoryId","123134"); 
+        shippingCarInfo.put("number",1);
+        shippingCarInfo.put("goodsId",131234);
+        items.add(item);
         
-        shippingCarInfo.put("items", items);
+        shippingCarInfo.put("items", items); 
         result.put("shippingCarInfo", shippingCarInfo);
+        result.put("shopIsOpened",true);
+        
 
         return CommonResult.success(result);
     }
+
+    // shop/subshop/list
+     @ApiOperation(value = "横幅", notes = "点餐页面，横幅展示")
+    @GetMapping("/subshop/list")
+    @ResponseBody
+    public CommonResult subShopList() {
+        
+        return CommonResult.success();
+    }
+    
 }

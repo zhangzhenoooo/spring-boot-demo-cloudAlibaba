@@ -1,8 +1,13 @@
 /**
-  * Copyright 2023 json.cn 
-  */
+ * Copyright 2023 json.cn
+ */
 package com.zhangz.demo.spring.cloud.product.entity;
-import lombok.Data;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,16 +19,37 @@ import java.util.Date;
  * @website http://www.json.cn/java2pojo/
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("notice")
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 public class Notice implements Serializable {
 
-    private String content;
-    private Date dateAdd;
+    @TableId("id")
     private int id;
-    private boolean isRemind;
-    private boolean isShow;
-    private int remindUid;
-    private String title;
-    private int userId;
     
+    @TableField("content")
+    private String content;
+
+    @TableField("date_add")
+    private String dateAdd;
+
+
+    @TableField("is_remind")
+    private boolean isRemind;
+
+    @TableField("is_show")
+    private boolean isShow;
+
+    @TableField("remind_uid")
+    private int remindUid;
+
+    @TableField("title")
+    private String title;
+
+    @TableField("user_id")
+    private int userId;
 
 }

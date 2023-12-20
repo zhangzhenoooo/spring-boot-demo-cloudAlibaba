@@ -8,7 +8,7 @@
         select * from
         <include refid="tableName"/>
         <where>
-            pid = #{oid,jdbcType=VARCHAR}
+            pid = #{oid,jdbcType=NUMERIC}
         </where>
     </select>
 </mapper>
