@@ -59,6 +59,9 @@ public class GoodInfo implements Serializable {
     private int hidden;
     @TableField("kanjia")
     private boolean kanjia;
+    /**
+     * 砍价
+     */
     @TableField("kanjia_price")
     private int kanjiaPrice;
     @TableField("limitation")
@@ -87,6 +90,9 @@ public class GoodInfo implements Serializable {
     private int numberReputation;
     @TableField("number_sells")
     private int numberSells;
+    /**
+     * 原价
+     */
     @TableField("original_price")
     private int originalPrice;
     @TableField("overseas")
@@ -99,6 +105,9 @@ public class GoodInfo implements Serializable {
     private String pic;
     @TableField("pingtuan")
     private boolean pingtuan;
+    /**
+     * 拼团价
+     */
     @TableField("pingtuan_price")
     private int pingtuanPrice;
     @TableField("property_ids")

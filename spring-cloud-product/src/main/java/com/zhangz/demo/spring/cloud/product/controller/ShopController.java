@@ -3,14 +3,17 @@ package com.zhangz.demo.spring.cloud.product.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zhangz.demo.spring.cloud.product.dto.TenantConfigDTO;
+import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO;
 import com.zhangz.demo.spring.cloud.product.entity.Banner;
 import com.zhangz.demo.spring.cloud.product.entity.ShopInfo;
 import com.zhangz.demo.spring.cloud.product.dto.ShopInfoVO;
+import com.zhangz.demo.spring.cloud.product.service.ShoppingCartService;
 import com.zhangz.spring.cloud.common.api.CommonResult;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,9 @@ import java.util.Map;
 @RequestMapping("/shop")
 @Api(tags = "商户服务")
 public class ShopController {
+
+    @Resource
+    private ShoppingCartService shoppingCartService;
 
     // curryburnt/config/values
     @GetMapping("/configById")
@@ -64,36 +70,17 @@ public class ShopController {
     @GetMapping("/cart/info")
     @ResponseBody
     public CommonResult cardInfo() {
-
-        Map<String, Object> result = new HashMap<>();
-
-        Map<String, Object> shippingCarInfo = new HashMap<>();
-        shippingCarInfo.put("number", 3);
-        shippingCarInfo.put("price", 12.5);
-        
-        // items     
-        List<Map<String,Object>> items = new ArrayList<>();      
-        Map<String, Object> item = new HashMap<>();
-        shippingCarInfo.put("categoryId","123134"); 
-        shippingCarInfo.put("number",1);
-        shippingCarInfo.put("goodsId",131234);
-        items.add(item);
-        
-        shippingCarInfo.put("items", items); 
-        result.put("shippingCarInfo", shippingCarInfo);
-        result.put("shopIsOpened",true);
-        
-
-        return CommonResult.success(result);
+        ShoppingCartInfoDTO shoppingCartInfoDTO = shoppingCartService.info();
+        return CommonResult.success(shoppingCartInfoDTO);
     }
 
     // shop/subshop/list
-     @ApiOperation(value = "横幅", notes = "点餐页面，横幅展示")
+    @ApiOperation(value = "横幅", notes = "点餐页面，横幅展示")
     @GetMapping("/subshop/list")
     @ResponseBody
     public CommonResult subShopList() {
-        
+
         return CommonResult.success();
     }
-    
+
 }

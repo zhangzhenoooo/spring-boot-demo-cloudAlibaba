@@ -20,10 +20,11 @@ import java.util.Map;
  * @Filename：AddCartDTO
  */
 @Data
-public class AddCartDTO implements Serializable {
-    private Long goodsId;
-    private Integer number;
-    private List<SkuItem> sku;
-    private String addition;
+public class ShoppingGoods implements Serializable {
+    private int price;
+    private String name;
+    private String pic;
+    private List<SkuNamePair> sku;
+
 
 }

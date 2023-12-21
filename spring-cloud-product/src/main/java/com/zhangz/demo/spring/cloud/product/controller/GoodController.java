@@ -73,7 +73,7 @@ public class GoodController {
         log.info("detail params id:{}", id);
 
         ShopDetailVO detailVO = new ShopDetailVO();
-        GoodInfo goodInfo = goodInfoService.getById(521056);
+        GoodInfo goodInfo = goodInfoService.getById(id);
         detailVO.setBasicInfo(goodInfo);
 
         GoodCategory goodCategory = goodCategoryService.getById(138948);

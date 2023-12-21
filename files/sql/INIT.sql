@@ -139,3 +139,26 @@ CREATE TABLE IF NOT EXISTS good_property (
     property_id INT,
     user_id INT
     );
+
+-- 订单表
+DROP TABLE IF EXISTS `order_info`;
+CREATE TABLE IF NOT EXISTS `order_info` (
+    `id` VARCHAR(255) NOT NULL PRIMARY KEY,
+    `user_id` BIGINT NOT NULL,
+    `create_time` VARCHAR(255) NOT NULL,
+    `remark` TEXT,
+    `ordered` BOOLEAN NOT NULL,
+    `ordered_time` BOOLEAN NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- 订单明细表
+DROP TABLE IF EXISTS `order_good`;
+CREATE TABLE IF NOT EXISTS `order_good` (
+    `id` VARCHAR(255) NOT NULL PRIMARY KEY,
+    `order_id` VARCHAR(255) NOT NULL,
+    `good_id` BIGINT NOT NULL,
+    `number` INT NOT NULL,
+    `sku` TEXT,
+    `price` INT NOT NULL COMMENT '价格 = number * goods unit price',
+    `create_time` VARCHAR(255) NOT NULL,
+    `remark` TEXT
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

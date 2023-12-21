@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class SkuItem implements Serializable {
-    private int  optionId;
-    private int  optionValueId;
+public class SkuNamePair implements Serializable {
+    private String  optionName;
+    private String  optionValueName;
 }
