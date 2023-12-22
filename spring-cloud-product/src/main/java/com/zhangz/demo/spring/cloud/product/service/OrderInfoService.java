@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
 import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
 import com.zhangz.spring.cloud.common.entity.Order;
+import com.zhangz.spring.cloud.common.exception.BussinessException;
 
 /*
  *@Author：zhangz
@@ -23,6 +24,12 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      */
     OrderInfo getNotOrdered();
+
+    /**
+     * 查询未下单的订单
+     * @return
+     */
+    OrderInfo getOrderStileInCart() throws BussinessException;
     
     
 }

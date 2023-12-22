@@ -41,7 +41,7 @@ public class GoodPropertyServiceImpl extends ServiceImpl<GoodPropertyMapper, Goo
         Collection<GoodProperty> goodProperties = this.listByIds(ids);
         for (GoodProperty goodProperty : goodProperties) {
             GoodPropertyDTO dto = BeanUtil.copyProperties(goodProperty, GoodPropertyDTO.class);
-            Set<GoodProperty> childsCurGoods = queryByPropertyId(goodProperty.getPropertyId());
+            Set<GoodProperty> childsCurGoods = queryByPropertyId(goodProperty.getId());
             dto.setChildsCurGoods(childsCurGoods);
             list.add(dto);
         }
@@ -49,7 +49,7 @@ public class GoodPropertyServiceImpl extends ServiceImpl<GoodPropertyMapper, Goo
     }
 
     @Override
-    public Set<GoodProperty> queryByPropertyId(int propertyId) {
+    public Set<GoodProperty> queryByPropertyId(long propertyId) {
         Set<GoodProperty> list = goodPropertyMapper.queryByPropertyId(propertyId);
         return list;
     }

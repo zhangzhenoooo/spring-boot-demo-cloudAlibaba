@@ -32,5 +32,7 @@ public interface ShoppingCartService {
     ShoppingCartInfoDTO info();
 
     void empty() throws BussinessException;
+
+    void addOrder(String propertyChildIds) throws BussinessException;
     
 }

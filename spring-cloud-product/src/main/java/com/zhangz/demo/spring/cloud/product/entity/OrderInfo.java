@@ -9,12 +9,17 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /*
- *@Author：zhangz
- *@Package：com.zhangz.demo.spring.cloud.product.entity
- *@Project：spring-cloud
- *@name：OrderInfo
- *@Date：2023/12/21  15:33
- *@Filename：OrderInfo
+ * @Author：zhangz
+ * 
+ * @Package：com.zhangz.demo.spring.cloud.product.entity
+ * 
+ * @Project：spring-cloud
+ * 
+ * @name：OrderInfo
+ * 
+ * @Date：2023/12/21 15:33
+ * 
+ * @Filename：OrderInfo
  */
 @Data
 @Builder
@@ -25,27 +30,33 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class OrderInfo implements Serializable {
 
-  @TableId("id")
-  private String id;
-  
-  @TableField("user_id")
-  private long userId;
+    @TableId("id")
+    private String id;
 
-  @TableField("create_time")
-  private String createTime;
+    @TableField("user_id")
+    private long userId;
 
-  @TableField("remark")
-  private long remark;
+    @TableField("create_time")
+    private String createTime;
 
-  /**
-   * 是否下单
-   */
-  @TableField("ordered")
-  private boolean ordered;
-  /**
-   * 下单时间
-   */
-  @TableField("ordered_time")
-  private boolean orderedTime;
-  
+    @TableField("remark")
+    private long remark;
+    
+    /**
+     * 订单状态 0 ： 未下单 1： 已下单 2 ： 已付款
+     */
+    @TableField("order_status")
+    private int orderStatus;
+
+    /**
+     * 下单时间
+     */
+    @TableField("ordered_time")
+    private String orderedTime;
+
+    /**
+     * 支付时间
+     */
+    @TableField("pay_time")
+    private String payTime;
 }

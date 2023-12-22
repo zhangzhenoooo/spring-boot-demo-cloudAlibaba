@@ -11,6 +11,6 @@ import java.util.Set;
 @Mapper
 public interface GoodPropertyMapper extends BaseMapper<GoodProperty> {
 
-    Set<GoodProperty> queryByPropertyId(@Param("propertyId") int propertyId);
+    Set<GoodProperty> queryByPropertyId(@Param("propertyId") long propertyId);
     
 }

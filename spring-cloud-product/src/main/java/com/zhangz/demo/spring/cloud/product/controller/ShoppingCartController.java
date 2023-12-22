@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/shopping-cart")
 @Api(tags = "购物车服务")
 public class ShoppingCartController {
-    
+
     @Resource
     private ShoppingCartService shoppingCartService;
 
@@ -36,11 +36,10 @@ public class ShoppingCartController {
         @RequestParam("sku") String skuStr) {
         log.info("configById params  AddCartDTO:{}", JSON.toJSONString(skuStr));
         List<SkuItem> skuItems = JSONArray.parseArray(skuStr, SkuItem.class);
-        shoppingCartService.add(goodsId,number, skuItems);
+        shoppingCartService.add(goodsId, number, skuItems);
         return CommonResult.success();
     }
 
-    
     /**
      * 清空购物车
      * @return
@@ -49,10 +48,19 @@ public class ShoppingCartController {
     @ResponseBody
     public CommonResult empty() throws BussinessException {
         log.info("empty cart");
-        
+
         shoppingCartService.empty();
         return CommonResult.success();
     }
-    
+
+    // cyTable/add-order
+    @PostMapping("/add-order")
+    @ResponseBody
+    public CommonResult addOrder(String propertyChildIds) throws BussinessException {
+        log.info("add-order，propertyChildIds：{}", propertyChildIds);
+
+        shoppingCartService.addOrder(propertyChildIds);
+        return CommonResult.success();
+    }
 
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.product.dao.OrderInfoMapper;
 import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
 import com.zhangz.demo.spring.cloud.product.service.OrderInfoService;
+import com.zhangz.spring.cloud.common.exception.BussinessException;
 import com.zhangz.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         if (null == orderInfo){
             orderInfo = new OrderInfo();
             orderInfo.setId(UUIDUtils.getUUID32());
-            orderInfo.setOrdered(false);
+            orderInfo.setOrderStatus(0);
             orderInfo.setCreateTime(DateUtil.formatTime(new Date()));
             orderInfo.setUserId(123456);
             this.save(orderInfo);
@@ -52,5 +53,15 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     public OrderInfo getNotOrdered() {
         int userId = 123456;
         return orderInfoMapper.getNotOrdered(userId);
+    }
+
+    @Override
+    public OrderInfo getOrderStileInCart() throws BussinessException {
+        int userId = 123456;
+        OrderInfo orderInfo =  orderInfoMapper.getOrderInfoByStatus(userId,0);
+        if (null == orderInfo){
+            throw new BussinessException("订单不存在");
+        }
+        return orderInfo;
     }
 }

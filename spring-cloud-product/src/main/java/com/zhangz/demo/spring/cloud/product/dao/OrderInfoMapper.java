@@ -9,5 +9,6 @@ import org.apache.ibatis.annotations.Param;
 public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
 
     OrderInfo getNotOrdered(@Param("userId") int userId);
-    
+
+    OrderInfo getOrderInfoByStatus(@Param("userId") int userId,@Param("orderStatus")int orderStatus);
 }

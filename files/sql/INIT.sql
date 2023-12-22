@@ -147,8 +147,9 @@ CREATE TABLE IF NOT EXISTS `order_info` (
     `user_id` BIGINT NOT NULL,
     `create_time` VARCHAR(255) NOT NULL,
     `remark` TEXT,
-    `ordered` BOOLEAN NOT NULL,
-    `ordered_time` BOOLEAN NOT NULL
+    `order_status` INT NOT NULL,
+    `ordered_time` VARCHAR(255),
+    `pay_time` VARCHAR(255)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 -- 订单明细表
 DROP TABLE IF EXISTS `order_good`;

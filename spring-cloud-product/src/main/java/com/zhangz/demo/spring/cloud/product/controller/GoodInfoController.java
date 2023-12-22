@@ -27,7 +27,7 @@ import java.util.*;
 @Slf4j
 @RequestMapping("/goods")
 @Api(tags = "货物服务")
-public class GoodController {
+public class GoodInfoController {
 
     @Resource
     private GoodInfoService goodInfoService;
@@ -58,7 +58,7 @@ public class GoodController {
     @ResponseBody
     public CommonResult goodsCategoryAll(int page, String categoryId, int pageSize) {
         log.info("goodsCategoryAll params");
-        List<GoodInfo> list = goodInfoService.list();
+        List<GoodInfo> list = goodInfoService.listByCategory(page,pageSize,categoryId);
         return CommonResult.success(list);
     }
 

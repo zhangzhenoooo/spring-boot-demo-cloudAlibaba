@@ -3,6 +3,8 @@ package com.zhangz.demo.spring.cloud.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
 
+import java.util.List;
+
 /*
  *@Author：zhangz
  *@Package：com.zhangz.demo.spring.cloud.product.service
@@ -12,4 +14,5 @@ import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
  *@Filename：GoodInfoService
  */
 public interface GoodInfoService extends IService<GoodInfo> {
+    List<GoodInfo> listByCategory(int page, int pageSize, String categoryId);
 }

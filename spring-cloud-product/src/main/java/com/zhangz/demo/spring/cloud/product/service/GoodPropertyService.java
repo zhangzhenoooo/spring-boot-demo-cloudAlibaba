@@ -17,5 +17,5 @@ import java.util.Set;
 public interface GoodPropertyService extends IService<GoodProperty> {
     Set<GoodPropertyDTO> queryBypropertyIds(Set<String> ids);
     
-    Set<GoodProperty> queryByPropertyId(int propertyId);
+    Set<GoodProperty> queryByPropertyId(long propertyId);
 }

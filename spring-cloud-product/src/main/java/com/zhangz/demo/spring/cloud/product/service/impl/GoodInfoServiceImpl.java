@@ -6,7 +6,12 @@ import com.zhangz.demo.spring.cloud.product.dao.GoodInfoMapper;
 import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.product.service.GoodInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * @Author：zhangz
@@ -23,4 +28,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> implements GoodInfoService {}
+public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> implements GoodInfoService {
+    @Resource
+    private GoodInfoMapper goodInfoMapper;
+    
+    @Override
+    public List<GoodInfo> listByCategory(int page, int pageSize, String categoryId) {
+        if (StringUtils.isEmpty(categoryId)){
+            return new ArrayList<>(0);
+        }
+        int from = (page - 1) * pageSize;
+        return goodInfoMapper.listByCategory(from,pageSize, categoryId);
+    }
+}

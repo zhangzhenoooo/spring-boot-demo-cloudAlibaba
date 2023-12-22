@@ -7,10 +7,7 @@ import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingGoods;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.SkuItem;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.SkuNamePair;
-import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
-import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
-import com.zhangz.demo.spring.cloud.product.entity.OrderGood;
-import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
+import com.zhangz.demo.spring.cloud.product.entity.*;
 import com.zhangz.demo.spring.cloud.product.service.*;
 import com.zhangz.spring.cloud.common.exception.BussinessException;
 import com.zhangz.spring.cloud.common.utils.UUIDUtils;
@@ -76,6 +73,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         int number = 0;
         int price = 0;
         OrderInfo orderInfo = orderInfoService.getNotOrdered();
+        
+        if (null == orderInfo){
+            orderInfo = orderInfoService.createOrder();
+        }
+        
         List<OrderGood> orderGoods = orderGoodService.queryByOrderId(orderInfo.getId());
         if (CollectionUtils.isEmpty(orderGoods)) {
             dto.setNumber(number);
@@ -131,5 +133,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             throw  new BussinessException("已下单,请刷新后操作");
         }
         orderGoodService.emptyByOrderId(orderInfo.getId());
+    }
+
+    @Override
+    public void addOrder(String propertyChildIds) throws BussinessException {
+        OrderInfo orderInfo = orderInfoService.getOrderStileInCart();
+        orderInfo.setOrderStatus(OrderStatusEnum.ORDERED.getState());
+        orderInfo.setOrderedTime(DateUtil.formatTime(new Date()));
     }
 }

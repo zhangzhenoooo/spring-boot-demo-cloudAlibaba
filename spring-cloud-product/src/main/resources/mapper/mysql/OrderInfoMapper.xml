@@ -3,11 +3,17 @@
 <mapper namespace="com.zhangz.demo.spring.cloud.product.dao.OrderInfoMapper">
 
     <sql id="tableName">order_info</sql>
-   
+
     <select id="getNotOrdered" resultType="com.zhangz.demo.spring.cloud.product.entity.OrderInfo">
         select * from
         <include refid="tableName"/>
-        where user_id = #{userId} and ordered is false
+        where user_id = #{userId} and (order_status = 0 or order_status = 1)
+    </select>
+
+    <select id="getOrderInfoByStatus" resultType="com.zhangz.demo.spring.cloud.product.entity.OrderInfo">
+        select * from
+        <include refid="tableName"/>
+        where user_id = #{userId} and order_status = #{orderStatus}
     </select>
 
 </mapper>
