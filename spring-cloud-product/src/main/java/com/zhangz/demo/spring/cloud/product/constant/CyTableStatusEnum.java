@@ -1,4 +1,4 @@
-package com.zhangz.demo.spring.cloud.product.entity;
+package com.zhangz.demo.spring.cloud.product.constant;
 
 /*
  * @Author：zhangz
@@ -14,16 +14,16 @@ package com.zhangz.demo.spring.cloud.product.entity;
  * @Filename：OrderStatusEnum
  */
 
-public enum OrderStatusEnum {
-    IN_CART(1,"购物车"),
-    ORDERED(1,"已下单"),
-    PAYED(2,"已支付")
+public enum CyTableStatusEnum {
+     NEED_CHECK(0,"待确认"),
+    COOKING(1,"已下厨"),
+    SERVED(2,"已上菜")
     ;
 
   private int state;
     private String desc;
 
-    OrderStatusEnum(int state, String desc) {
+    CyTableStatusEnum(int state, String desc) {
         this.state = state;
         this.desc = desc;
     }

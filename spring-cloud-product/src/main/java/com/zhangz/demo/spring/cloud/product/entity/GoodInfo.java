@@ -10,6 +10,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -63,7 +64,7 @@ public class GoodInfo implements Serializable {
      * 砍价
      */
     @TableField("kanjia_price")
-    private int kanjiaPrice;
+    private BigDecimal kanjiaPrice;
     @TableField("limitation")
     private boolean limitation;
     @TableField("logistics_id")
@@ -75,7 +76,7 @@ public class GoodInfo implements Serializable {
     @TableField("min_buy_number")
     private int minBuyNumber;
     @TableField("min_price")
-    private int minPrice;
+    private BigDecimal minPrice;
     @TableField("min_score")
     private int minScore;
     @TableField("name")
@@ -94,7 +95,7 @@ public class GoodInfo implements Serializable {
      * 原价
      */
     @TableField("original_price")
-    private int originalPrice;
+    private BigDecimal originalPrice;
     @TableField("overseas")
     private boolean overseas;
     @TableField("paixu")
@@ -109,7 +110,7 @@ public class GoodInfo implements Serializable {
      * 拼团价
      */
     @TableField("pingtuan_price")
-    private int pingtuanPrice;
+    private BigDecimal pingtuanPrice;
     @TableField("property_ids")
     private String propertyIds;
     @TableField("recommend_status")

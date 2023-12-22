@@ -3,6 +3,7 @@ package com.zhangz.demo.spring.cloud.product.service.impl;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.zhangz.demo.spring.cloud.product.constant.OrderStatusEnum;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingGoods;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.SkuItem;
@@ -12,17 +13,16 @@ import com.zhangz.demo.spring.cloud.product.service.*;
 import com.zhangz.spring.cloud.common.exception.BussinessException;
 import com.zhangz.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.http.util.Asserts;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /*
  * @Author：zhangz
@@ -51,6 +51,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private GoodPropertyService goodPropertyService;
 
     @Override
+    
+    @Transactional(rollbackFor = Exception.class)
     public void add(long goodsId, int number, List<SkuItem> skuItems) {
         // 订单
         OrderInfo orderInfo = orderInfoService.getNotOrdered();
@@ -62,22 +64,29 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         orderGood.setGoodId(goodsId);
         orderGood.setNumber(number);
         orderGood.setSku(JSON.toJSONString(skuItems));
-        orderGood.setPrice(10 * number);
+        orderGood.setPrice(new BigDecimal("10").multiply(new BigDecimal(String.valueOf(number))));
         orderGood.setCreateTime(DateUtil.formatTime(new Date()));
         orderGoodService.save(orderGood);
+
+        BigDecimal amount = orderInfo.getAmount().add(orderGood.getPrice());
+        orderInfo.setAmount(amount);
+        int goodsNumber = orderInfo.getGoodsNumber() + number;
+        orderInfo.setGoodsNumber(goodsNumber);
+        orderInfoService.updateById(orderInfo);
     }
 
     @Override
     public ShoppingCartInfoDTO info() {
         ShoppingCartInfoDTO dto = new ShoppingCartInfoDTO();
         int number = 0;
-        int price = 0;
+        BigDecimal price = new BigDecimal("0");
         OrderInfo orderInfo = orderInfoService.getNotOrdered();
-        
-        if (null == orderInfo){
+
+        if (null == orderInfo) {
             orderInfo = orderInfoService.createOrder();
         }
-        
+        dto.setOrderStatus(orderInfo.getOrderStatus());
+
         List<OrderGood> orderGoods = orderGoodService.queryByOrderId(orderInfo.getId());
         if (CollectionUtils.isEmpty(orderGoods)) {
             dto.setNumber(number);
@@ -87,7 +96,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         List<ShoppingGoods> items = new ArrayList<>();
         for (OrderGood orderGood : orderGoods) {
             number += orderGood.getNumber();
-            price += orderGood.getPrice();
+            price = price.add(orderGood.getPrice());
 
             GoodInfo goodInfo = goodInfoService.getById(orderGood.getGoodId());
             if (null == goodInfo) {
@@ -96,17 +105,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
             ShoppingGoods goods = new ShoppingGoods();
             goods.setPrice(orderGood.getPrice());
-            goods.setPrice(orderGood.getPrice());
+            goods.setNumber(orderGood.getNumber());
             goods.setPic(goodInfo.getPic());
             goods.setName(goodInfo.getName());
 
             List<SkuNamePair> skuNamePairs = new ArrayList<>();
             List<SkuItem> skuItems = JSONArray.parseArray(orderGood.getSku(), SkuItem.class);
-            if (CollectionUtils.isEmpty(skuItems)){
+            if (CollectionUtils.isEmpty(skuItems)) {
                 items.add(goods);
                 continue;
             }
-            
+
             for (SkuItem skuItem : skuItems) {
                 SkuNamePair skuNamePair = new SkuNamePair();
                 GoodProperty goodPropertyById = goodPropertyService.getById(skuItem.getOptionId());
@@ -129,8 +138,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void empty() throws BussinessException {
         OrderInfo orderInfo = orderInfoService.getNotOrdered();
-        if (null == orderInfo){
-            throw  new BussinessException("已下单,请刷新后操作");
+        if (null == orderInfo) {
+            throw new BussinessException("已下单,请刷新后操作");
         }
         orderGoodService.emptyByOrderId(orderInfo.getId());
     }
@@ -140,5 +149,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         OrderInfo orderInfo = orderInfoService.getOrderStileInCart();
         orderInfo.setOrderStatus(OrderStatusEnum.ORDERED.getState());
         orderInfo.setOrderedTime(DateUtil.formatTime(new Date()));
+        orderInfoService.updateById(orderInfo);
     }
 }

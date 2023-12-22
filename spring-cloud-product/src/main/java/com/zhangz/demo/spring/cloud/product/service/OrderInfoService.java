@@ -3,8 +3,11 @@ package com.zhangz.demo.spring.cloud.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
 import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
+import com.zhangz.demo.spring.cloud.product.vo.OrderedVO;
 import com.zhangz.spring.cloud.common.entity.Order;
 import com.zhangz.spring.cloud.common.exception.BussinessException;
+
+import java.math.BigDecimal;
 
 /*
  *@Author：zhangz
@@ -30,6 +33,10 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      */
     OrderInfo getOrderStileInCart() throws BussinessException;
-    
+
+
+    OrderedVO listByUserIdAndStatus(String token, int status) throws BussinessException;
+
+    void pay(String token, BigDecimal money, String remark, String orderId) throws BussinessException;
     
 }

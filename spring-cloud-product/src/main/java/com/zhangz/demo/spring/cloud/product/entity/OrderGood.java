@@ -52,7 +52,7 @@ public class OrderGood implements Serializable {
      * 价格 价格 = number * goods unit price
      */
     @TableField("price")
-    private int price;
+    private BigDecimal price;
 
     @TableField("create_time")
     private String createTime;

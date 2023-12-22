@@ -3,6 +3,7 @@ package com.zhangz.demo.spring.cloud.product.dto.shoppingcart;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /*
@@ -18,6 +19,10 @@ import java.util.List;
 public class ShoppingCartInfoDTO implements Serializable {
   
   private int number;
-  private int  price;
+  private BigDecimal  price;
   private List<ShoppingGoods> items;
+  /**
+   * 订单状态 0 ： 未下单 1： 已下单 2 ： 已付款
+   */
+  private int orderStatus;
 }

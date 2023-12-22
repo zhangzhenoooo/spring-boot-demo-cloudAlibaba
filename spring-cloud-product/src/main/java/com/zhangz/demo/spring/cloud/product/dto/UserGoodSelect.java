@@ -6,6 +6,7 @@ package com.zhangz.demo.spring.cloud.product.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Auto-generated: 2023-12-12 15:43:39
@@ -19,9 +20,9 @@ public class UserGoodSelect implements Serializable {
     private int fxType;
     private long goodsId;
     private long id;
-    private int originalPrice;
-    private int pingtuanPrice;
-    private int price;
+    private BigDecimal originalPrice;
+    private BigDecimal pingtuanPrice;
+    private BigDecimal price;
     private String propertyChildIds;
     private String propertyChildNames;
     private int score;

@@ -1,10 +1,16 @@
 package com.zhangz.demo.spring.cloud.product.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.text.StrBuilder;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.product.dao.GoodInfoMapper;
+import com.zhangz.demo.spring.cloud.product.dto.UserGoodSelect;
 import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
+import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
 import com.zhangz.demo.spring.cloud.product.service.GoodInfoService;
+import com.zhangz.demo.spring.cloud.product.service.GoodPropertyService;
+import com.zhangz.spring.cloud.common.exception.BussinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -31,7 +37,8 @@ import java.util.List;
 public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> implements GoodInfoService {
     @Resource
     private GoodInfoMapper goodInfoMapper;
-    
+    @Resource
+    private GoodPropertyService goodPropertyService;
     @Override
     public List<GoodInfo> listByCategory(int page, int pageSize, String categoryId) {
         if (StringUtils.isEmpty(categoryId)){
@@ -39,5 +46,29 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         }
         int from = (page - 1) * pageSize;
         return goodInfoMapper.listByCategory(from,pageSize, categoryId);
+    }
+
+    @Override
+    public UserGoodSelect price(Integer goodsId, String propertyChildIds) throws BussinessException {
+        GoodInfo goodInfo = goodInfoMapper.selectById(goodsId);
+        if (null == goodInfo){
+            throw new BussinessException("产品不存在");
+        }
+        StringBuffer propertyChildNamesBuf = new StringBuffer();
+        String[] split = propertyChildIds.split(",");
+        for (String s : split) {
+            String[] split1 = s.split(":");
+            GoodProperty key = goodPropertyService.getById(split1[0]);
+            GoodProperty value = goodPropertyService.getById(split1[1]);
+            propertyChildNamesBuf.append(key.getName());
+            propertyChildNamesBuf.append(":");
+            propertyChildNamesBuf.append(value.getName());
+        }
+        UserGoodSelect u = BeanUtil.copyProperties(goodInfo,UserGoodSelect.class);
+        u.setGoodsId(goodInfo.getId());
+        u.setPropertyChildIds(propertyChildIds);
+        u.setPropertyChildNames(propertyChildNamesBuf.toString());
+        u.setPrice(goodInfo.getOriginalPrice());
+        return u;
     }
 }

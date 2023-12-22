@@ -142,15 +142,19 @@ CREATE TABLE IF NOT EXISTS good_property (
 
 -- 订单表
 DROP TABLE IF EXISTS `order_info`;
-CREATE TABLE IF NOT EXISTS `order_info` (
-    `id` VARCHAR(255) NOT NULL PRIMARY KEY,
-    `user_id` BIGINT NOT NULL,
-    `create_time` VARCHAR(255) NOT NULL,
-    `remark` TEXT,
-    `order_status` INT NOT NULL,
-    `ordered_time` VARCHAR(255),
-    `pay_time` VARCHAR(255)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `order_info` (
+                              `id` varchar(36) NOT NULL,
+                              `user_id` bigint(20) NOT NULL,
+                              `create_time` varchar(255) DEFAULT NULL,
+                              `remark` varchar(255) DEFAULT NULL,
+                              `order_status` int(11) DEFAULT NULL,
+                              `ordered_time` varchar(255) DEFAULT NULL,
+                              `pay_time` varchar(255) DEFAULT NULL,
+                              `amount` decimal(18,2) DEFAULT NULL,
+                              `amount_real` decimal(18,2) DEFAULT NULL,
+                              `goods_number` int(11) DEFAULT NULL,
+                              PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 -- 订单明细表
 DROP TABLE IF EXISTS `order_good`;
 CREATE TABLE IF NOT EXISTS `order_good` (
@@ -159,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `order_good` (
     `good_id` BIGINT NOT NULL,
     `number` INT NOT NULL,
     `sku` TEXT,
-    `price` INT NOT NULL COMMENT '价格 = number * goods unit price',
+    `price` decimal(18,2) NOT NULL COMMENT '价格 = number * goods unit price',
     `create_time` VARCHAR(255) NOT NULL,
     `remark` TEXT
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

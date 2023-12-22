@@ -3,6 +3,7 @@ package com.zhangz.demo.spring.cloud.product.dto.shoppingcart;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,8 @@ import java.util.Map;
  */
 @Data
 public class ShoppingGoods implements Serializable {
-    private int price;
+    private BigDecimal price;
+    private int number;
     private String name;
     private String pic;
     private List<SkuNamePair> sku;

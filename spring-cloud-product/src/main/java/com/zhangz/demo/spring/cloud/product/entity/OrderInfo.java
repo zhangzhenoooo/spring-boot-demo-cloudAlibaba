@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /*
  * @Author：zhangz
@@ -40,7 +41,7 @@ public class OrderInfo implements Serializable {
     private String createTime;
 
     @TableField("remark")
-    private long remark;
+    private String remark;
     
     /**
      * 订单状态 0 ： 未下单 1： 已下单 2 ： 已付款
@@ -59,4 +60,22 @@ public class OrderInfo implements Serializable {
      */
     @TableField("pay_time")
     private String payTime;
+
+    /**
+     * 总金额
+     */
+    @TableField("amount")
+    private BigDecimal amount;
+
+    /**
+     * 实际付款金额
+     */
+    @TableField("amount_real")
+    private BigDecimal amountReal;
+    /**
+     * 菜品数量
+     */
+    @TableField("goods_number")
+    private int goodsNumber;
+    
 }

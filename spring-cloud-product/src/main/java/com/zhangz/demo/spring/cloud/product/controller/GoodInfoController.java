@@ -14,6 +14,7 @@ import com.zhangz.demo.spring.cloud.product.service.GoodPropertyService;
 import com.zhangz.demo.spring.cloud.product.vo.ShopDetailVO;
 import com.zhangz.spring.cloud.common.api.CommonResult;
 import com.zhangz.spring.cloud.common.api.ResultCode;
+import com.zhangz.spring.cloud.common.exception.BussinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -132,11 +133,10 @@ public class GoodInfoController {
     // /shop/goods/price
     @PostMapping("/price")
     @ResponseBody
-    public CommonResult price(String propertyChildIds, Integer userId) {
+    public CommonResult price(String propertyChildIds, Integer goodsId) throws BussinessException {
         log.info("detail params price");
-        String s =
-            " {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523696, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430951,41224:430953,41225:430956,\", \"propertyChildNames\": \"甜度:酸甜,口感:加冰,分量:大份,\", \"score\": 0, \"stores\": 999890, \"userId\": 27 }";
-        UserGoodSelect u = JSONObject.parseObject(s, UserGoodSelect.class);
+        
+        UserGoodSelect u =   goodInfoService.price(goodsId,propertyChildIds);
         return CommonResult.success(u);
     }
 
