@@ -4,18 +4,30 @@ author ：是大魔王本王 @1804919062qq.com
 
 > 菜鸟自己总结的，有很多不足之处，望指正  
 > 很多地方都借鉴了大佬们，没有标注的可以联系我，谢谢！
+> 
+
+小程序前端：
+```text
+spring-cloud/curry 
+```
+小程序后端：
+```text
+spring-cloud/spring-cloud-product 
+```
+
 
 # 1. 项目介绍
 
-有关spring cloud 相关技术的整合，以及常用技术的整合。实现简单的操作等。 用于归纳自己遇到的技术以及对新技术的实践。
+  基于spring cloud 开发的微信小程序点餐系统
 
+ 
 ## 1.1 项目模块
 
 模块名称 | 部署 | 访问地址
 ------ | ------| ----
-gateway | idea | http://localhost:7777
+网关 | idea | http://localhost:7777
 order | idea |http://localhost:9999/cloud-alibaba-order/doc.html
-product | idea |http://localhost:8888/cloud-alibaba-product/doc.html
+小程序后台 | idea |http://localhost:8888/cloud-alibaba-product/doc.html
 
 ## 1.2 技术罗列
 
