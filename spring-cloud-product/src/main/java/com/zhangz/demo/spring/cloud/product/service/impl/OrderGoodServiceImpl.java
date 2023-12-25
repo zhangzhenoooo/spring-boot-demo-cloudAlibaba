@@ -2,11 +2,8 @@ package com.zhangz.demo.spring.cloud.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.product.dao.OrderGoodMapper;
-import com.zhangz.demo.spring.cloud.product.dao.OrderInfoMapper;
 import com.zhangz.demo.spring.cloud.product.entity.OrderGood;
-import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
 import com.zhangz.demo.spring.cloud.product.service.OrderGoodService;
-import com.zhangz.demo.spring.cloud.product.service.OrderInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +31,17 @@ public class OrderGoodServiceImpl extends ServiceImpl<OrderGoodMapper, OrderGood
     private OrderGoodMapper orderGoodMapper;
 
     @Override
-    public List<OrderGood> queryByOrderId(String orderId) {
-        return orderGoodMapper.queryByOrderId(orderId);
+    public List<OrderGood> queryByOrderIdAndStatus(String orderId,Integer status) {
+        return orderGoodMapper.queryByOrderIdAndStatus(orderId,status);
     }
 
     @Override
     public void emptyByOrderId(String orderId) {
         orderGoodMapper.deleteByOrderId(orderId);
+    }
+
+    @Override
+    public void changeStatusToOrdered(String orderId) {
+        orderGoodMapper.changeStatusToOrdered(orderId);
     }
 }

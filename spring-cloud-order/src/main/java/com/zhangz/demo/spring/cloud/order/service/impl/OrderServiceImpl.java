@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
             return Order.builder().oid(orderId).pid("-1").pname("熔断啦").build();
         }
 
-        Order build = Order.builder().oid(orderId).pid(pid).pname(product.getPname()).pprice(new BigDecimal("12.7")).number(number).uid("1111111").username("1111111").build();
+        Order build = Order.builder().oid(orderId).pid(pid).pname(product.getPname()).pprice(new BigDecimal("0")).number(number).uid("123456").username("大魔王").build();
         orderMapper.insert(build);
         log.info("生成订单信息|{}", JSON.toJSONString(build));
 

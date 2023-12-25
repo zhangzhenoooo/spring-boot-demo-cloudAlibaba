@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 public class OrderInfoVO implements Serializable {
     
     private String id;
+    private String orderNumber;
     /**
      * 桌号
      */
@@ -33,5 +34,15 @@ public class OrderInfoVO implements Serializable {
      * 应付金额
      */
     private BigDecimal amountReal;
+    
+    private String shopNameZt;
+    
+    
+    private String statusStr;
+    /**
+     * 下单时间
+     */
+    private String dateAdd;
+  
  
 }

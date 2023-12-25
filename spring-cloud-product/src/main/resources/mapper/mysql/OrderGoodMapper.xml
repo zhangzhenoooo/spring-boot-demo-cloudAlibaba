@@ -4,16 +4,26 @@
 
     <sql id="tableName">order_good</sql>
 
-    <select id="queryByOrderId" resultType="com.zhangz.demo.spring.cloud.product.entity.OrderGood">
+    <select id="queryByOrderIdAndStatus" resultType="com.zhangz.demo.spring.cloud.product.entity.OrderGood">
         select * from
         <include refid="tableName"/>
         where order_id = #{orderId}
+        <if test="null != status">
+            and status = #{status}
+        </if>
     </select>
 
     <delete id="deleteByOrderId">
         delete from
         <include refid="tableName"/>
-        where order_id = #{orderId}
+        where order_id = #{orderId} and status = 0
     </delete>
+
+    <update id="changeStatusToOrdered">
+        update
+        <include refid="tableName"/>
+        set status = 1
+        where order_id = #{orderId} and status = 0
+    </update>
 
 </mapper>

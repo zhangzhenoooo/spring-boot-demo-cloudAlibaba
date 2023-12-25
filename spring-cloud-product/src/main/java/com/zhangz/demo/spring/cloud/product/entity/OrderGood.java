@@ -59,5 +59,9 @@ public class OrderGood implements Serializable {
 
     @TableField("remark")
     private String remark;
-
+    /**
+     * 菜品状态 0 :未下单，1:已经下单,2：制作中，3：已上菜
+     */
+    @TableField("status")
+    private int status;
 }

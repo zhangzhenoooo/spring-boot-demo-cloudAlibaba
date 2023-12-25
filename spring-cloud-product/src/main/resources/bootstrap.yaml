@@ -87,3 +87,10 @@ seata:
       application: seata-server
       group: DEFAULT_GROUP
       
+      
+product:
+  shop:
+    default:
+      shopId: 123456
+      shopName: 震震私厨
+      

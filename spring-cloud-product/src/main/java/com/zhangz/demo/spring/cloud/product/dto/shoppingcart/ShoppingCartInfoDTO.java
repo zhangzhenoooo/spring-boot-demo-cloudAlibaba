@@ -25,4 +25,9 @@ public class ShoppingCartInfoDTO implements Serializable {
    * 订单状态 0 ： 未下单 1： 已下单 2 ： 已付款
    */
   private int orderStatus;
+
+  /**
+   *  已经下单的菜品
+   */
+  private List<ShoppingGoods> checkedItems;
 }

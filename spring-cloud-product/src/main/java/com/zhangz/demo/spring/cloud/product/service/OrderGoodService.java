@@ -15,7 +15,10 @@ import java.util.List;
  *@Filename：OrderService
  */
 public interface OrderGoodService extends IService<OrderGood> {
-    List<OrderGood> queryByOrderId(String orderId);
+    List<OrderGood> queryByOrderIdAndStatus(String orderId,Integer status);
 
     void emptyByOrderId(String id);
+
+    void changeStatusToOrdered(String orderId);
+    
 }

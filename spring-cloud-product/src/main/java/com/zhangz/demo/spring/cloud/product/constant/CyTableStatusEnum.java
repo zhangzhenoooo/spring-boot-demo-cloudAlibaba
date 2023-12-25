@@ -15,9 +15,11 @@ package com.zhangz.demo.spring.cloud.product.constant;
  */
 
 public enum CyTableStatusEnum {
-     NEED_CHECK(0,"待确认"),
-    COOKING(1,"已下厨"),
-    SERVED(2,"已上菜")
+     NEED_CHECK(0,"待下单"),
+    CHECKED(1,"已经下单"),
+    COOKING(2,"制作中"),
+    SERVED(3,"已上菜"),
+    PAYED(4,"已支付"),
     ;
 
   private int state;

@@ -165,5 +165,7 @@ CREATE TABLE IF NOT EXISTS `order_good` (
     `sku` TEXT,
     `price` decimal(18,2) NOT NULL COMMENT '价格 = number * goods unit price',
     `create_time` VARCHAR(255) NOT NULL,
-    `remark` TEXT
+    `remark` TEXT,
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+ALTER TABLE order_good ADD status TINYINT DEFAULT 0 NOT NULL COMMENT '菜品状态 0 :未下单，1:已经下单,2：制作中，3：已上菜，4 :已支付';

@@ -3,6 +3,7 @@ package com.zhangz.demo.spring.cloud.product.service.impl;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.zhangz.demo.spring.cloud.product.constant.CyTableStatusEnum;
 import com.zhangz.demo.spring.cloud.product.constant.OrderStatusEnum;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingGoods;
@@ -51,12 +52,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private GoodPropertyService goodPropertyService;
 
     @Override
-    
+
     @Transactional(rollbackFor = Exception.class)
     public void add(long goodsId, int number, List<SkuItem> skuItems) {
         // 订单
         OrderInfo orderInfo = orderInfoService.getNotOrdered();
-        Assert.notNull(orderInfo, "订单不存在");
+        if (null == orderInfo) {
+            orderInfo = orderInfoService.createOrder();
+        }
         // 订单明细
         OrderGood orderGood = new OrderGood();
         orderGood.setOrderId(orderInfo.getId());
@@ -69,6 +72,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         orderGoodService.save(orderGood);
 
         BigDecimal amount = orderInfo.getAmount().add(orderGood.getPrice());
+        // 加菜后把订单状态修改为未下单状态
+        orderInfo.setOrderStatus(OrderStatusEnum.IN_CART.getState());
         orderInfo.setAmount(amount);
         int goodsNumber = orderInfo.getGoodsNumber() + number;
         orderInfo.setGoodsNumber(goodsNumber);
@@ -78,21 +83,37 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartInfoDTO info() {
         ShoppingCartInfoDTO dto = new ShoppingCartInfoDTO();
-        int number = 0;
-        BigDecimal price = new BigDecimal("0");
+
         OrderInfo orderInfo = orderInfoService.getNotOrdered();
-
         if (null == orderInfo) {
-            orderInfo = orderInfoService.createOrder();
+            return null;
         }
-        dto.setOrderStatus(orderInfo.getOrderStatus());
 
-        List<OrderGood> orderGoods = orderGoodService.queryByOrderId(orderInfo.getId());
+        dto.setOrderStatus(orderInfo.getOrderStatus());
+        int number = 0;
+        BigDecimal amount = new BigDecimal("0");
+        // 没有下单的 或者加菜
+        List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.NEED_CHECK.getState());
+        // 获取goods详细信息
+        List<ShoppingGoods> items = getGoodsDetail(orderGoods,number,amount);
+
+        List<OrderGood> orderedGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.CHECKED.getState());
+        List<ShoppingGoods> orderedGoodsItems = getGoodsDetail(orderedGoods,number,amount);
+
+        dto.setPrice(amount);
+        dto.setNumber(number);
+        dto.setItems(items);
+        dto.setCheckedItems(orderedGoodsItems);
+
+        return dto;
+    }
+
+    private List<ShoppingGoods> getGoodsDetail(List<OrderGood> orderGoods,int number ,BigDecimal price) {
         if (CollectionUtils.isEmpty(orderGoods)) {
-            dto.setNumber(number);
-            dto.setPrice(price);
-            return dto;
+            return null;
         }
+
+      
         List<ShoppingGoods> items = new ArrayList<>();
         for (OrderGood orderGood : orderGoods) {
             number += orderGood.getNumber();
@@ -106,9 +127,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             ShoppingGoods goods = new ShoppingGoods();
             goods.setPrice(orderGood.getPrice());
             goods.setNumber(orderGood.getNumber());
+            goods.setKey(orderGood.getId());
             goods.setPic(goodInfo.getPic());
             goods.setName(goodInfo.getName());
-
+            goods.setMinBuyNumber(goodInfo.getMinBuyNumber());
             List<SkuNamePair> skuNamePairs = new ArrayList<>();
             List<SkuItem> skuItems = JSONArray.parseArray(orderGood.getSku(), SkuItem.class);
             if (CollectionUtils.isEmpty(skuItems)) {
@@ -127,12 +149,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             goods.setSku(skuNamePairs);
             items.add(goods);
         }
-
-        dto.setPrice(price);
-        dto.setNumber(number);
-        dto.setItems(items);
-
-        return dto;
+        return items;
     }
 
     @Override
@@ -146,9 +163,46 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void addOrder(String propertyChildIds) throws BussinessException {
+        /**
+         *  修改订单状态 为已下单
+         */
         OrderInfo orderInfo = orderInfoService.getOrderStileInCart();
         orderInfo.setOrderStatus(OrderStatusEnum.ORDERED.getState());
-        orderInfo.setOrderedTime(DateUtil.formatTime(new Date()));
+        orderInfo.setOrderedTime(DateUtil.formatDateTime(new Date()));
         orderInfoService.updateById(orderInfo);
+        /**
+         * 修改菜品状态为已下单
+         */
+        orderGoodService.changeStatusToOrdered(orderInfo.getId());
+    }
+
+    @Override
+    public void modifyNumber(String token, String key, int number) throws BussinessException {
+        OrderGood orderGood = orderGoodService.getById(key);
+        if (null == orderGood) {
+            throw new BussinessException("商品不存在");
+        }
+
+        if (0 != orderGood.getStatus()) {
+            throw new BussinessException("商品已下单不能修改数量，请联系服务员");
+        }
+
+        orderGood.setNumber(number);
+        orderGoodService.updateById(orderGood);
+    }
+
+    @Override
+    public void remove(String token, String key) throws BussinessException {
+        OrderGood orderGood = orderGoodService.getById(key);
+        if (null == orderGood) {
+            throw new BussinessException("商品不存在");
+        }
+
+        if (0 != orderGood.getStatus()) {
+            throw new BussinessException("商品已下单不能修改数量，请联系服务员");
+        }
+
+        orderGoodService.removeById(key);
+        
     }
 }

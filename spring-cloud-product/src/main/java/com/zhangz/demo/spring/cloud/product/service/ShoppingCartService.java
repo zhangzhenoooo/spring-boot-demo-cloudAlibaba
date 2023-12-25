@@ -34,5 +34,8 @@ public interface ShoppingCartService {
     void empty() throws BussinessException;
 
     void addOrder(String propertyChildIds) throws BussinessException;
-    
+
+    void modifyNumber(String token, String key, int number) throws BussinessException;
+
+    void remove(String token, String key) throws BussinessException;
 }

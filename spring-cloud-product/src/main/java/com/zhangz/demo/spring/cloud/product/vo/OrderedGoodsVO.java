@@ -20,6 +20,7 @@ import java.math.BigDecimal;
  */
 @Data
 public class OrderedGoodsVO implements Serializable {
+    private String key;
     private BigDecimal amount;
     private String goodsName;
     private String property;

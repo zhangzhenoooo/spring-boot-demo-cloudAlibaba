@@ -35,7 +35,7 @@ public interface OrderInfoService extends IService<OrderInfo> {
     OrderInfo getOrderStileInCart() throws BussinessException;
 
 
-    OrderedVO listByUserIdAndStatus(String token, int status) throws BussinessException;
+    OrderedVO listByUserIdAndStatus(String token, Integer status) throws BussinessException;
 
     void pay(String token, BigDecimal money, String remark, String orderId) throws BussinessException;
     

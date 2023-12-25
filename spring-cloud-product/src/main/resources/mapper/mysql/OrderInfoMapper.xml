@@ -16,4 +16,19 @@
         where user_id = #{userId} and order_status = #{orderStatus}
     </select>
 
+    <select id="listOrderInfoByStatus" resultType="com.zhangz.demo.spring.cloud.product.entity.OrderInfo">
+        select * from
+        <include refid="tableName"/>
+        where user_id = #{userId}
+        <if test="null != orderStatus">
+            and order_status = #{orderStatus}
+        </if>
+    </select>
+    
+    <select id="getDayCountUserOrder" resultType="java.lang.Integer">
+        select count(*) from
+        <include refid="tableName"/>
+        where user_id = #{userId} and create_time >=  #{date} || '00:00:00' and create_time &lt; #{date} || '23:59:59'
+    </select>
+
 </mapper>

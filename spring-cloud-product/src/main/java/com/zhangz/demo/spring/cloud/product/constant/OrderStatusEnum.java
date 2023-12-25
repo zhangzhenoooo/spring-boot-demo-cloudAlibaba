@@ -15,12 +15,9 @@ package com.zhangz.demo.spring.cloud.product.constant;
  */
 
 public enum OrderStatusEnum {
-    IN_CART(0,"购物车"),
-    ORDERED(1,"已下单"),
-    PAYED(2,"已支付")
-    ;
+    IN_CART(0, "待下单"), ORDERED(1, "订单已下单"), PAYED(2, "订单已支付");
 
-  private int state;
+    private int state;
     private String desc;
 
     OrderStatusEnum(int state, String desc) {
@@ -42,5 +39,14 @@ public enum OrderStatusEnum {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public static String getDescByState(int state) {
+        for (OrderStatusEnum value : OrderStatusEnum.values()) {
+            if (value.getState() == state) {
+                return value.desc;
+            }
+        }
+        return null;
     }
 }

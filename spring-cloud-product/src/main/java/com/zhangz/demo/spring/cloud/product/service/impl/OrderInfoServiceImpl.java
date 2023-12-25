@@ -2,8 +2,10 @@ package com.zhangz.demo.spring.cloud.product.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Pair;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.zhangz.demo.spring.cloud.product.config.DefaultShopConfig;
 import com.zhangz.demo.spring.cloud.product.constant.CyTableStatusEnum;
 import com.zhangz.demo.spring.cloud.product.constant.OrderStatusEnum;
 import com.zhangz.demo.spring.cloud.product.dao.OrderInfoMapper;
@@ -50,16 +52,19 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Resource
     private GoodInfoService goodInfoService;
 
+    @Resource
+    private DefaultShopConfig defaultShopConfig;
+
     @Override
     public OrderInfo createOrder() {
         OrderInfo orderInfo = getNotOrdered();
-
+        long userId = defaultShopConfig.getShopId();
         if (null == orderInfo) {
             orderInfo = new OrderInfo();
-            orderInfo.setId(UUIDUtils.getUUID32());
+            orderInfo.setId(createOrderId(userId));
             orderInfo.setOrderStatus(0);
-            orderInfo.setCreateTime(DateUtil.formatTime(new Date()));
-            orderInfo.setUserId(123456);
+            orderInfo.setCreateTime(DateUtil.formatDateTime(new Date()));
+            orderInfo.setUserId(userId);
             orderInfo.setAmount(new BigDecimal("0"));
             orderInfo.setAmountReal(new BigDecimal("0"));
             orderInfo.setGoodsNumber(0);
@@ -68,15 +73,24 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return orderInfo;
     }
 
+    private String createOrderId(long userId) {
+        int number = getDayCountUserOrder(userId) + 1;
+        return DateUtil.format(new Date(), "yyyyMMdd") + "_" + userId + "_" + number;
+    }
+
+    private int getDayCountUserOrder(long userId) {
+        return orderInfoMapper.getDayCountUserOrder(userId, DateUtil.formatDate(new Date()));
+    }
+
     @Override
     public OrderInfo getNotOrdered() {
-        int userId = 123456;
+        long userId = defaultShopConfig.getShopId();;
         return orderInfoMapper.getNotOrdered(userId);
     }
 
     @Override
     public OrderInfo getOrderStileInCart() throws BussinessException {
-        int userId = 123456;
+        long userId = defaultShopConfig.getShopId();;
         OrderInfo orderInfo = orderInfoMapper.getOrderInfoByStatus(userId, 0);
         if (null == orderInfo) {
             throw new BussinessException("订单不存在");
@@ -85,46 +99,67 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public OrderedVO listByUserIdAndStatus(String token, int status) throws BussinessException {
+    public OrderedVO listByUserIdAndStatus(String token, Integer status) throws BussinessException {
         OrderedVO orderedVO = new OrderedVO();
+        long userId = defaultShopConfig.getShopId();
 
-        int userId = 123456;
-        OrderInfo orderInfo = orderInfoMapper.getOrderInfoByStatus(userId, status);
-        if (null == orderInfo) {
+        List<OrderInfo> orderInfos = orderInfoMapper.listOrderInfoByStatus(userId, status);
+        if (null != status && CollectionUtil.isEmpty(orderInfos)) {
             throw new BussinessException("订单不存在");
         }
+
+        Map<String, List<OrderedGoodsVO>> goodsMap = new HashMap<>();
+        List<OrderInfoVO> orderList = new ArrayList<>();
+        for (OrderInfo orderInfo : orderInfos) {
+            Pair<OrderInfoVO, List<OrderedGoodsVO>> pair = getOrderInfos(orderInfo);
+            OrderInfoVO key = pair.getKey();
+
+            if (null == key) {
+                continue;
+            }
+            List<OrderedGoodsVO> value = pair.getValue();
+            goodsMap.put(key.getId(), value);
+            orderList.add(key);
+        }
+        orderedVO.setOrderList(orderList);
+        orderedVO.setGoodsMap(goodsMap);
+        return orderedVO;
+    }
+
+    private Pair<OrderInfoVO, List<OrderedGoodsVO>> getOrderInfos(OrderInfo orderInfo) {
         OrderInfoVO orderInfoVO = new OrderInfoVO();
         orderInfoVO.setId(orderInfo.getId());
+        orderInfoVO.setOrderNumber(orderInfo.getId());
+        orderInfoVO.setDateAdd(orderInfo.getOrderedTime());
         orderInfoVO.setAmount(orderInfo.getAmount());
         orderInfoVO.setAmountReal(orderInfo.getAmount());
         orderInfoVO.setGoodsNumber(orderInfo.getGoodsNumber());
         orderInfoVO.setTableCode("141341");
-        orderedVO.setOrderList(Lists.newArrayList(orderInfoVO));
-
+        orderInfoVO.setShopNameZt(defaultShopConfig.getShopName());
+        orderInfoVO.setStatusStr(OrderStatusEnum.getDescByState(orderInfo.getOrderStatus()));
         List<OrderedGoodsVO> orderedGoodsVOList = new ArrayList<>();
-        List<OrderGood> orderGoods = orderGoodService.queryByOrderId(orderInfo.getId());
-        if (CollectionUtil.isNotEmpty(orderGoods)) {
-            for (OrderGood orderGood : orderGoods) {
-                OrderedGoodsVO goodsVO = new OrderedGoodsVO();
-                goodsVO.setCyTableStatus(CyTableStatusEnum.COOKING.getState());
-                goodsVO.setAmount(orderGood.getPrice());
-                goodsVO.setNumber(orderGood.getNumber());
-                goodsVO.setProperty("fasfasf");
-
-                GoodInfo goodInfo = goodInfoService.getById(orderGood.getGoodId());
-                if (null != goodInfo) {
-                    goodsVO.setGoodsName(goodInfo.getName());
-                    goodsVO.setPic(goodInfo.getPic());
-                }
-
-                orderedGoodsVOList.add(goodsVO);
-            }
+        List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.CHECKED.getState());
+        if (CollectionUtil.isEmpty(orderGoods)) {
+            return Pair.of(null, null);
         }
 
-        Map<String, List<OrderedGoodsVO>> goodsMap = new HashMap<>();
-        goodsMap.put(orderInfoVO.getId(), orderedGoodsVOList);
-        orderedVO.setGoodsMap(goodsMap);
-        return orderedVO;
+        for (OrderGood orderGood : orderGoods) {
+            OrderedGoodsVO goodsVO = new OrderedGoodsVO();
+            goodsVO.setCyTableStatus(CyTableStatusEnum.COOKING.getState());
+            goodsVO.setAmount(orderGood.getPrice());
+            goodsVO.setNumber(orderGood.getNumber());
+            goodsVO.setProperty("fasfasf");
+            goodsVO.setKey(orderGood.getId());
+            GoodInfo goodInfo = goodInfoService.getById(orderGood.getGoodId());
+            if (null != goodInfo) {
+                goodsVO.setGoodsName(goodInfo.getName());
+                goodsVO.setPic(goodInfo.getPic());
+            }
+
+            orderedGoodsVOList.add(goodsVO);
+        }
+
+        return Pair.of(orderInfoVO, orderedGoodsVOList);
     }
 
     @Override
@@ -136,7 +171,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             throw new BussinessException("订单【" + orderInfo + "】不存在");
         }
         orderInfo.setOrderStatus(OrderStatusEnum.PAYED.getState());
-        orderInfo.setPayTime(DateUtil.formatTime(new Date()));
+        orderInfo.setPayTime(DateUtil.formatDateTime(new Date()));
         orderInfoMapper.updateById(orderInfo);
         log.info("订单【{}】支付成功", orderId);
     }

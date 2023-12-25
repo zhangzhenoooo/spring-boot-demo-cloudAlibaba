@@ -22,11 +22,13 @@ import java.util.Map;
  */
 @Data
 public class ShoppingGoods implements Serializable {
+    
+    private String key;
     private BigDecimal price;
     private int number;
     private String name;
     private String pic;
     private List<SkuNamePair> sku;
-
+    private int minBuyNumber = 1;
 
 }
