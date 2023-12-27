@@ -98,7 +98,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "修改昵称", notes = "修改昵称")
-    @GetMapping("/modify")
+    @PostMapping("/modify")
     @ResponseBody
     public CommonResult modify(String nick) throws BussinessException {
 
