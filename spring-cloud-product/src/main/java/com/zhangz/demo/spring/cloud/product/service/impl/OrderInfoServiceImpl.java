@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Pair;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Lists;
 import com.zhangz.demo.spring.cloud.product.config.DefaultShopConfig;
 import com.zhangz.demo.spring.cloud.product.constant.CyTableStatusEnum;
 import com.zhangz.demo.spring.cloud.product.constant.OrderStatusEnum;
@@ -15,11 +14,12 @@ import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
 import com.zhangz.demo.spring.cloud.product.service.GoodInfoService;
 import com.zhangz.demo.spring.cloud.product.service.OrderGoodService;
 import com.zhangz.demo.spring.cloud.product.service.OrderInfoService;
+import com.zhangz.demo.spring.cloud.product.service.UserInfoService;
 import com.zhangz.demo.spring.cloud.product.vo.OrderInfoVO;
 import com.zhangz.demo.spring.cloud.product.vo.OrderedGoodsVO;
 import com.zhangz.demo.spring.cloud.product.vo.OrderedVO;
+import com.zhangz.demo.spring.cloud.product.vo.user.UserInfoVO;
 import com.zhangz.spring.cloud.common.exception.BussinessException;
-import com.zhangz.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -55,10 +55,15 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Resource
     private DefaultShopConfig defaultShopConfig;
 
+
+    @Resource
+    private UserInfoService userInfoService;
+
     @Override
     public OrderInfo createOrder() {
         OrderInfo orderInfo = getNotOrdered();
-        long userId = defaultShopConfig.getShopId();
+        UserInfoVO currentLoginUserInfo = userInfoService.getCurrentLoginUserInfo();
+        String userId = currentLoginUserInfo.getUserId();
         if (null == orderInfo) {
             orderInfo = new OrderInfo();
             orderInfo.setId(createOrderId(userId));
@@ -73,24 +78,26 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return orderInfo;
     }
 
-    private String createOrderId(long userId) {
+    private String createOrderId(String userId) {
         int number = getDayCountUserOrder(userId) + 1;
         return DateUtil.format(new Date(), "yyyyMMdd") + "_" + userId + "_" + number;
     }
 
-    private int getDayCountUserOrder(long userId) {
+    private int getDayCountUserOrder(String userId) {
         return orderInfoMapper.getDayCountUserOrder(userId, DateUtil.formatDate(new Date()));
     }
 
     @Override
     public OrderInfo getNotOrdered() {
-        long userId = defaultShopConfig.getShopId();;
+        UserInfoVO currentLoginUserInfo = userInfoService.getCurrentLoginUserInfo();
+        String userId = currentLoginUserInfo.getUserId();;
         return orderInfoMapper.getNotOrdered(userId);
     }
 
     @Override
     public OrderInfo getOrderStileInCart() throws BussinessException {
-        long userId = defaultShopConfig.getShopId();;
+        UserInfoVO currentLoginUserInfo = userInfoService.getCurrentLoginUserInfo();
+        String userId = currentLoginUserInfo.getUserId();
         OrderInfo orderInfo = orderInfoMapper.getOrderInfoByStatus(userId, 0);
         if (null == orderInfo) {
             throw new BussinessException("订单不存在");
@@ -101,7 +108,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Override
     public OrderedVO listByUserIdAndStatus(String token, Integer status) throws BussinessException {
         OrderedVO orderedVO = new OrderedVO();
-        long userId = defaultShopConfig.getShopId();
+        UserInfoVO currentLoginUserInfo = userInfoService.getCurrentLoginUserInfo();
+        String userId = currentLoginUserInfo.getUserId();
 
         List<OrderInfo> orderInfos = orderInfoMapper.listOrderInfoByStatus(userId, status);
         if (null != status && CollectionUtil.isEmpty(orderInfos)) {

@@ -24,6 +24,6 @@ import java.io.Serializable;
 @ConfigurationProperties(prefix = "product.shop.default")
 public class DefaultShopConfig implements Serializable {
 
-    private long shopId;
+    private String shopId;
     private String shopName;
 }

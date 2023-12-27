@@ -31,6 +31,7 @@ public class ShoppingCartController {
      * @param skuStr
      * @return
      */
+    @ApiOperation(value = "加入购物车", notes = "加入购物车")
     @PostMapping("/add")
     @ResponseBody
     public CommonResult add(@RequestParam("goodsId") long goodsId, @RequestParam("number") int number, @RequestParam("addition") String additionStr,
@@ -45,6 +46,8 @@ public class ShoppingCartController {
      * 清空购物车
      * @return
      */
+    @ApiOperation(value = "清空购物车", notes = "清空购物车")
+
     @PostMapping("/empty")
     @ResponseBody
     public CommonResult empty() throws BussinessException {
@@ -55,6 +58,7 @@ public class ShoppingCartController {
     }
 
     // cyTable/add-order
+    @ApiOperation(value = "下单", notes = "下单")
     @PostMapping("/add-order")
     @ResponseBody
     public CommonResult addOrder(String propertyChildIds) throws BussinessException {

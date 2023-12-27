@@ -39,13 +39,7 @@ public class GoodInfoController {
     @Resource
     private GoodPropertyService goodPropertyService;
 
-    // curryburnt/shop/goods/category/all
     @ApiOperation(value = "商品类别列表", notes = "商品类别列表，订单左侧分类列表展示")
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(paramType = "query", name = "reason", value = "失败原因", required = false, dataType = "string"),
-    // @ApiImplicitParam(paramType = "query", name = "pageSize", value = "页大小", required = true, dataType = "Integer"),
-    // @ApiImplicitParam(paramType = "query", name = "pageNo", value = "当前页", required = true, dataType = "Integer")
-    // })
     @GetMapping("/category/all")
     @ResponseBody
     public CommonResult goodsCategoryAll() {
@@ -53,7 +47,6 @@ public class GoodInfoController {
         List<GoodCategory> list = goodCategoryService.list();
         return CommonResult.success(list);
     }
-    // shop/goods/list
 
     @PostMapping("/list")
     @ResponseBody
@@ -103,9 +96,6 @@ public class GoodInfoController {
         Set<GoodPropertyDTO>  poperites  = goodPropertyService.queryBypropertyIds(new HashSet<>(Arrays.asList(split)));
         detailVO.setProperties(poperites);
         
-        String skuStr =
-            "[{\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523687, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430950,41224:430952,41225:430955,\", \"propertyChildNames\": \"甜度:微甜,口感:常温,分量:中份,\", \"score\": 0, \"stores\": 999694, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523688, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430950,41224:430952,41225:430956,\", \"propertyChildNames\": \"甜度:微甜,口感:常温,分量:大份,\", \"score\": 0, \"stores\": 999767, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523689, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430950,41224:430953,41225:430955,\", \"propertyChildNames\": \"甜度:微甜,口感:加冰,分量:中份,\", \"score\": 0, \"stores\": 999972, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523690, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430950,41224:430953,41225:430956,\", \"propertyChildNames\": \"甜度:微甜,口感:加冰,分量:大份,\", \"score\": 0, \"stores\": 999928, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523691, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430950,41224:430954,41225:430955,\", \"propertyChildNames\": \"甜度:微甜,口感:少冰,分量:中份,\", \"score\": 0, \"stores\": 999991, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523692, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430950,41224:430954,41225:430956,\", \"propertyChildNames\": \"甜度:微甜,口感:少冰,分量:大份,\", \"score\": 0, \"stores\": 999963, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523693, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430951,41224:430952,41225:430955,\", \"propertyChildNames\": \"甜度:酸甜,口感:常温,分量:中份,\", \"score\": 0, \"stores\": 999995, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523694, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430951,41224:430952,41225:430956,\", \"propertyChildNames\": \"甜度:酸甜,口感:常温,分量:大份,\", \"score\": 0, \"stores\": 999994, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523695, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430951,41224:430953,41225:430955,\", \"propertyChildNames\": \"甜度:酸甜,口感:加冰,分量:中份,\", \"score\": 0, \"stores\": 999990, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523696, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430951,41224:430953,41225:430956,\", \"propertyChildNames\": \"甜度:酸甜,口感:加冰,分量:大份,\", \"score\": 0, \"stores\": 999891, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523697, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430951,41224:430954,41225:430955,\", \"propertyChildNames\": \"甜度:酸甜,口感:少冰,分量:中份,\", \"score\": 0, \"stores\": 999995, \"userId\": 27 }, {\"fxType\": 2, \"goodsId\": 521056, \"id\": 2523698, \"originalPrice\": 0.00, \"pingtuanPrice\": 0.00, \"price\": 12.00, \"propertyChildIds\": \"41223:430951,41224:430954,41225:430956,\", \"propertyChildNames\": \"甜度:酸甜,口感:少冰,分量:大份,\", \"score\": 0, \"stores\": 999934, \"userId\": 27 } ]";
-        List<GoodSelectItem> goodSelectItems = JSONArray.parseArray(skuStr, GoodSelectItem.class);
         detailVO.setSkuList(null);
         detailVO.setSubPics(Lists.newArrayList(0));
         return CommonResult.success(detailVO);

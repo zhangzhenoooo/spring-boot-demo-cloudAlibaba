@@ -34,6 +34,12 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseBody
+    @ExceptionHandler(value = LoginException.class)
+    public CommonResult handle(LoginException e) {
+        return CommonResult.failed(ResultCode.NOT_LOGIN,e.getMessage());
+    }
+    
+    @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public CommonResult handleValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
@@ -69,5 +75,12 @@ public class GlobalExceptionHandler {
             message = "暂无权限！请联系管理员";
         }
         return CommonResult.failed(message);
+    }
+
+
+    @ResponseBody
+    @ExceptionHandler(value = RuntimeException.class)
+    public CommonResult handleRuntimeException(RuntimeException e) {
+        return CommonResult.failed("系统异常");
     }
 }

@@ -3,6 +3,23 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: cloud-alibaba-product
+  cache:
+    type: redis
+    redis:
+      use-key-prefix: true
+      key-prefix: ${spring.application.name}
+  redis:
+    database: 7
+    timeout: 2000
+    host: 192.168.1.250
+    port: 6379
+    password: bosssoft
+    jedis:
+      pool:
+        max-active: 20
+        max-wait: 100
+        max-idle: 20
+        min-idle: 1
   cloud:
     nacos:
       discovery:
@@ -87,7 +104,12 @@ seata:
       application: seata-server
       group: DEFAULT_GROUP
       
-      
+j2cache:
+  config-location: /j2cache.properties
+  redis-client: lettuce
+  open-spring-cache: true
+  
+  
 product:
   shop:
     default:

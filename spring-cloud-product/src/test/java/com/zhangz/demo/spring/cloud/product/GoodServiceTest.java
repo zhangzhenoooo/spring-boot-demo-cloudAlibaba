@@ -8,10 +8,7 @@ import com.zhangz.demo.spring.cloud.product.entity.GoodCategory;
 import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
 import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
-import com.zhangz.demo.spring.cloud.product.service.GoodCategoryService;
-import com.zhangz.demo.spring.cloud.product.service.GoodInfoService;
-import com.zhangz.demo.spring.cloud.product.service.GoodPropertyService;
-import com.zhangz.demo.spring.cloud.product.service.OrderInfoService;
+import com.zhangz.demo.spring.cloud.product.service.*;
 import com.zhangz.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -51,7 +48,9 @@ public class GoodServiceTest {
     
     @Resource
     private OrderInfoService orderInfoService;
-    
+
+    @Resource
+    private WxService wxService;
 
     @Resource
     private GoodPropertyService goodPropertyService;
@@ -121,6 +120,11 @@ public class GoodServiceTest {
 
         OrderInfo order = orderInfoService.createOrder();
         System.out.println(JSON.toJSONString(order));
+    }
+    
+    @Test 
+    public void wxLogin() throws Exception {
+        wxService.refreshSession("0b1oLI1w3UJ1Y13lx83w37czUp2oLI1Y");
     }
     
 }

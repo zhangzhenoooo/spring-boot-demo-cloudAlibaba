@@ -1,6 +1,7 @@
 package com.zhangz.demo.spring.cloud.product.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Pair;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zhangz.demo.spring.cloud.product.constant.CyTableStatusEnum;
@@ -9,14 +10,16 @@ import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingGoods;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.SkuItem;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.SkuNamePair;
-import com.zhangz.demo.spring.cloud.product.entity.*;
+import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
+import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
+import com.zhangz.demo.spring.cloud.product.entity.OrderGood;
+import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
 import com.zhangz.demo.spring.cloud.product.service.*;
 import com.zhangz.spring.cloud.common.exception.BussinessException;
 import com.zhangz.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -95,10 +98,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         // 没有下单的 或者加菜
         List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.NEED_CHECK.getState());
         // 获取goods详细信息
-        List<ShoppingGoods> items = getGoodsDetail(orderGoods,number,amount);
+        Pair<Pair<Integer, BigDecimal>, List<ShoppingGoods>> goodsDetailPairNo = getGoodsDetail(orderGoods, number, amount);
+        Pair<Integer, BigDecimal> keyNo = goodsDetailPairNo.getKey();
+        number = keyNo.getKey();
+        amount = keyNo.getValue();
+        List<ShoppingGoods> items = goodsDetailPairNo.getValue();
 
         List<OrderGood> orderedGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.CHECKED.getState());
-        List<ShoppingGoods> orderedGoodsItems = getGoodsDetail(orderedGoods,number,amount);
+        Pair<Pair<Integer, BigDecimal>, List<ShoppingGoods>> goodsDetailPair = getGoodsDetail(orderedGoods, number, amount);
+        Pair<Integer, BigDecimal> key = goodsDetailPair.getKey();
+        number = key.getKey();
+        amount = key.getValue();
+        List<ShoppingGoods> orderedGoodsItems = goodsDetailPair.getValue();
 
         dto.setPrice(amount);
         dto.setNumber(number);
@@ -108,12 +119,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return dto;
     }
 
-    private List<ShoppingGoods> getGoodsDetail(List<OrderGood> orderGoods,int number ,BigDecimal price) {
+    private Pair<Pair<Integer, BigDecimal>, List<ShoppingGoods>> getGoodsDetail(List<OrderGood> orderGoods, int number, BigDecimal price) {
+
         if (CollectionUtils.isEmpty(orderGoods)) {
-            return null;
+            return Pair.of(Pair.of(number, price), null);
         }
 
-      
         List<ShoppingGoods> items = new ArrayList<>();
         for (OrderGood orderGood : orderGoods) {
             number += orderGood.getNumber();
@@ -149,7 +160,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             goods.setSku(skuNamePairs);
             items.add(goods);
         }
-        return items;
+        return Pair.of(Pair.of(number, price), items);
     }
 
     @Override
@@ -203,6 +214,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
 
         orderGoodService.removeById(key);
-        
+
     }
 }

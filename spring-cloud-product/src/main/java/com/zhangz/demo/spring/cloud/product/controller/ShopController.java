@@ -28,7 +28,7 @@ public class ShopController {
     @Resource
     private ShoppingCartService shoppingCartService;
 
-    // curryburnt/config/values
+ 
     @GetMapping("/configById")
     @ResponseBody
     public CommonResult configById(@RequestParam("tenantId") String tenantId) {
@@ -39,7 +39,7 @@ public class ShopController {
         return CommonResult.success(list);
     }
 
-    // subshop/detail/v2?id=78194
+ 
     @ApiOperation(value = "商店信息", notes = "点餐页面，商家信息")
     @GetMapping("/subshop/detail")
     @ResponseBody
@@ -52,7 +52,7 @@ public class ShopController {
         return CommonResult.success(info);
     }
 
-    // banner/list
+  
     @ApiOperation(value = "横幅", notes = "点餐页面，横幅展示")
     @GetMapping("/banner/list")
     @ResponseBody
@@ -64,8 +64,7 @@ public class ShopController {
         return CommonResult.success(list);
     }
 
-    // shopping-cart/info
-    // banner/list
+ 
     @ApiOperation(value = "购物车信息", notes = "购物车信息")
     @GetMapping("/cart/info")
     @ResponseBody
@@ -74,12 +73,12 @@ public class ShopController {
         return CommonResult.success(shoppingCartInfoDTO);
     }
 
-    // shop/subshop/list
-    @ApiOperation(value = "横幅", notes = "点餐页面，横幅展示")
-    @GetMapping("/subshop/list")
+     @ApiOperation(value = "商铺详情", notes = "商铺详情")
+    @PostMapping("/subshop/list")
     @ResponseBody
-    public CommonResult subShopList() {
-
-        return CommonResult.success();
+    public CommonResult subShopList(String nameLike,String pageSize,Double curlatitude ,Double curlongitude ) {
+        String str = "[{\"activity\": \"8折\", \"address\": \"北京市东城区建国门内大街8号中粮广场B座307室\", \"bindUid\": 2398223, \"characteristic\": \"这是一家非常有特色的奶茶店，奶茶香甜可口，值得品尝。\", \"cityId\": \"110101000000\", \"cyTablePayMod\": 1, \"dateAdd\": \"2017-06-02 15:36:09\", \"dateUpdate\": \"2023-11-01 09:39:27\", \"distance\": 12.593917871192877, \"expressType\": \"dada\", \"goodsNeedCheck\": false, \"id\": 36, \"introduce\": \"店铺介绍\", \"latitude\": 39.907082, \"linkPhone\": \"13500000000\", \"linkPhoneShow\": true, \"longitude\": 116.429314, \"name\": \"东城店（中粮广场B座307室）\", \"number\": \"4217-1478883\", \"numberFav\": 0, \"numberGoodReputation\": 0, \"numberOrder\": -1, \"numberReputation\": 0, \"openScan\": true, \"openWaimai\": true, \"openZiqu\": true, \"openingHours\": \"00:00-23:59\", \"paixu\": 0, \"pic\": \"https://dcdn.it120.cc/2020/08/04/3b5c2e23-7c9c-481a-b8de-3b0cdc1c6273.jpg\", \"provinceId\": \"110000000000\", \"recommendStatus\": 0, \"serviceAmountMin\": 86.00, \"serviceDistance\": 5.00, \"status\": 1, \"statusStr\": \"正常\", \"taxGst\": 0.00, \"taxService\": 0.00, \"type\": \"自营\", \"userId\": 27, \"workStatus\": 0 } ]";
+        JSONArray objects = JSONArray.parseArray(str);
+        return CommonResult.success(objects);
     }
 }

@@ -26,56 +26,46 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("order_info")
+@TableName("user_info")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class OrderInfo implements Serializable {
+public class UserInfo implements Serializable {
 
-    @TableId("id")
-    private String id;
-
-    @TableField("user_id")
+    @TableId("user_id")
     private String userId;
+
+    @TableField("user_name")
+    private String userName;
+
+    @TableField("nick")
+    private String nick;
+    
+    @TableField("avatar_url")
+    private String avatarUrl;
+    
+    @TableField("phone")
+    private String phone;
 
     @TableField("create_time")
     private String createTime;
 
     @TableField("remark")
     private String remark;
+
+    @TableField("password")
+    private String password;
+    /**
+     * 
+     */
+    @TableField("status")
+    private int status;
     
+    @TableField("openid")
+    private String openid;
     /**
-     * 订单状态 0 ： 未下单 1： 已下单 2 ： 已付款
+     * '用户等级 0：普通用户，1 : vip ,2:vvip , 3 :vvvip , 4: 大爷，5;上帝'
      */
-    @TableField("order_status")
-    private int orderStatus;
+    @TableField("level")
+    private int level;
 
-    /**
-     * 下单时间
-     */
-    @TableField("ordered_time")
-    private String orderedTime;
-
-    /**
-     * 支付时间
-     */
-    @TableField("pay_time")
-    private String payTime;
-
-    /**
-     * 总金额
-     */
-    @TableField("amount")
-    private BigDecimal amount;
-
-    /**
-     * 实际付款金额
-     */
-    @TableField("amount_real")
-    private BigDecimal amountReal;
-    /**
-     * 菜品数量
-     */
-    @TableField("goods_number")
-    private int goodsNumber;
-    
 }

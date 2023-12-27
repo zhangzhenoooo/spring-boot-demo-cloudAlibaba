@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS good_property (
 DROP TABLE IF EXISTS `order_info`;
 CREATE TABLE `order_info` (
                               `id` varchar(36) NOT NULL,
-                              `user_id` bigint(20) NOT NULL,
+                              `user_id` varchar(36) NOT NULL,
                               `create_time` varchar(255) DEFAULT NULL,
                               `remark` varchar(255) DEFAULT NULL,
                               `order_status` int(11) DEFAULT NULL,
@@ -155,6 +155,8 @@ CREATE TABLE `order_info` (
                               `goods_number` int(11) DEFAULT NULL,
                               PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+
 -- 订单明细表
 DROP TABLE IF EXISTS `order_good`;
 CREATE TABLE IF NOT EXISTS `order_good` (
@@ -169,3 +171,22 @@ CREATE TABLE IF NOT EXISTS `order_good` (
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
  
 ALTER TABLE order_good ADD status TINYINT DEFAULT 0 NOT NULL COMMENT '菜品状态 0 :未下单，1:已经下单,2：制作中，3：已上菜，4 :已支付';
+
+-- 用户表
+
+DROP TABLE IF EXISTS `user_info`;
+CREATE TABLE IF NOT EXISTS `user_info` (
+    `user_id` VARCHAR(255) NOT NULL PRIMARY KEY,
+    `user_name` VARCHAR(255) NOT NULL,
+    `phone`  VARCHAR(15) NOT NULL,
+    `create_time` VARCHAR(255) NOT NULL,
+    `remark` VARCHAR(500) ,
+    `status` tinyint NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE user_info ADD password varchar(100) NOT NULL;
+ALTER TABLE user_info ADD openid varchar(100) NULL COMMENT '微信openid';
+ALTER TABLE user_info ADD nick varchar(100) NULL COMMENT '昵称';
+ALTER TABLE user_info CHANGE nick nick varchar(100) NULL COMMENT '昵称' AFTER user_name;
+ALTER TABLE user_info ADD avatar_url varchar(100) NULL COMMENT '头像地址';
+ALTER TABLE curry.user_info ADD `level` TINYINT DEFAULT 0 NOT NULL COMMENT '用户等级 0：普通用户，1 : vip ,2:vvip , 3 :vvvip , 4: 大爷，5;上帝';

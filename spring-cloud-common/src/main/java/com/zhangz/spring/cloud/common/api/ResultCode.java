@@ -6,6 +6,7 @@ package com.zhangz.spring.cloud.common.api;
  */
 public enum ResultCode implements IErrorCode {
     SUCCESS(0, "操作成功"),
+    NOT_LOGIN(503, "登录失效"),
     FAILED(500, "操作失败"),
     NO_DATA(700, "无数据"),
 
