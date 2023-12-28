@@ -99,6 +99,8 @@ public class WebAppConfigurer implements WebMvcConfigurer {
                         "/swagger-resources/**",
                         "/swagger-ui.html/**",
                         "/**/check-token/**",
+                        "/**/shop/**",
+                        "/**/goods/**",
                         "/doc.html",
                         "/pages/**",
                         "/**/error");
