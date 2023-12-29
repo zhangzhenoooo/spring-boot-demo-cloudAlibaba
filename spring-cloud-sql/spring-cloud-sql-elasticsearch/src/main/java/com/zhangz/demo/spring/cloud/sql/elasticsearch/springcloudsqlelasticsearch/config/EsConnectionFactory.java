@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.zhangz.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;

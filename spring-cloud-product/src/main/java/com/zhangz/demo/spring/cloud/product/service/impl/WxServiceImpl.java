@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhangz.demo.spring.cloud.cache.config.service.TokenService;
 import com.zhangz.demo.spring.cloud.product.dto.wx.WxLoginResDTO;
 import com.zhangz.demo.spring.cloud.product.service.WxService;
-import com.zhangz.spring.cloud.common.exception.SystemException;
+import com.zhangz.demo.spring.cloud.common.exception.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;

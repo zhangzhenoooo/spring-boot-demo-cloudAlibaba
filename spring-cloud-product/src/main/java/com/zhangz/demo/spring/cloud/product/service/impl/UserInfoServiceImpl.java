@@ -15,8 +15,8 @@ import com.zhangz.demo.spring.cloud.product.service.WxService;
 import com.zhangz.demo.spring.cloud.product.vo.user.UserDetailVO;
 import com.zhangz.demo.spring.cloud.product.vo.user.UserInfoVO;
 import com.zhangz.demo.spring.cloud.product.vo.user.UserLevelVO;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
-import com.zhangz.spring.cloud.common.utils.UUIDUtils;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

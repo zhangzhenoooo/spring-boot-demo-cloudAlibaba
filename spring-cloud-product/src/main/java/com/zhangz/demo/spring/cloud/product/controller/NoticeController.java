@@ -1,16 +1,12 @@
 package com.zhangz.demo.spring.cloud.product.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zhangz.demo.spring.cloud.product.dto.TenantConfigDTO;
 import com.zhangz.demo.spring.cloud.product.entity.Notice;
-import com.zhangz.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.common.api.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Slf4j

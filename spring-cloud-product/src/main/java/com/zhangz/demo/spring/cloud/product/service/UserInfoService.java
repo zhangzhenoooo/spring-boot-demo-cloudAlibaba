@@ -5,7 +5,7 @@ import com.zhangz.demo.spring.cloud.product.dto.wx.WxAuthDTO;
 import com.zhangz.demo.spring.cloud.product.entity.UserInfo;
 import com.zhangz.demo.spring.cloud.product.vo.user.UserDetailVO;
 import com.zhangz.demo.spring.cloud.product.vo.user.UserInfoVO;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 
 public interface UserInfoService extends IService<UserInfo> {
 

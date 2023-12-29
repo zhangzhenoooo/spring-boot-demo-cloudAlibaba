@@ -1,9 +1,10 @@
 package com.zhangz.demo.spring.cloud.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.product.dto.UserGoodSelect;
 import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ import java.util.List;
  */
 public interface GoodInfoService extends IService<GoodInfo> {
     List<GoodInfo> listByCategory(int page, int pageSize, String categoryId);
-
+    
+    //
     UserGoodSelect price(Integer goodsId, String propertyChildIds) throws BussinessException;
     
 }

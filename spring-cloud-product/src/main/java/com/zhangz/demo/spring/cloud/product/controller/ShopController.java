@@ -8,16 +8,13 @@ import com.zhangz.demo.spring.cloud.product.entity.Banner;
 import com.zhangz.demo.spring.cloud.product.entity.ShopInfo;
 import com.zhangz.demo.spring.cloud.product.dto.ShopInfoVO;
 import com.zhangz.demo.spring.cloud.product.service.ShoppingCartService;
-import com.zhangz.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.common.api.CommonResult;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j

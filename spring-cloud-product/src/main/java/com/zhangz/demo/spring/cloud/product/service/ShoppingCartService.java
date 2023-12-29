@@ -16,7 +16,7 @@ package com.zhangz.demo.spring.cloud.product.service;
 
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.SkuItem;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 
 import java.util.List;
 

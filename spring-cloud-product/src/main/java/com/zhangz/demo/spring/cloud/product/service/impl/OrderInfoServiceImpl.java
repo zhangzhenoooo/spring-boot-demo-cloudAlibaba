@@ -19,7 +19,7 @@ import com.zhangz.demo.spring.cloud.product.vo.OrderInfoVO;
 import com.zhangz.demo.spring.cloud.product.vo.OrderedGoodsVO;
 import com.zhangz.demo.spring.cloud.product.vo.OrderedVO;
 import com.zhangz.demo.spring.cloud.product.vo.user.UserInfoVO;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package com.zhangz.demo.spring.cloud.product.service.rpc;
 
 import com.zhangz.demo.spring.cloud.product.service.ProductService;
-import com.zhangz.spring.cloud.common.entity.Product;
-import com.zhangz.spring.cloud.common.service.ProductRpcService;
+import com.zhangz.demo.spring.cloud.common.entity.Product;
+import com.zhangz.demo.spring.cloud.common.service.ProductRpcService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 

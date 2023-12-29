@@ -1,8 +1,8 @@
 package com.zhangz.demo.spring.cloud.order.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.zhangz.spring.cloud.common.entity.Order;
-import com.zhangz.spring.cloud.common.vo.Result;
+import com.zhangz.demo.spring.cloud.common.entity.Order;
+import com.zhangz.demo.spring.cloud.common.vo.Result;
 import com.zhangz.demo.spring.cloud.order.service.OrderService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

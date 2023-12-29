@@ -1,6 +1,5 @@
 package com.zhangz.demo.spring.cloud.product;
 
-import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -9,7 +8,6 @@ import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
 import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
 import com.zhangz.demo.spring.cloud.product.service.*;
-import com.zhangz.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

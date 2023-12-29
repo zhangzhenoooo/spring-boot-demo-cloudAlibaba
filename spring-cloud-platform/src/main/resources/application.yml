@@ -1,0 +1,21 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /cloud-alibaba-platform
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: cloud-alibaba-platform
+  datasource:
+    name: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://192.168.1.188:3306/curry?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+
+swagger:
+  enable: true
+  version: 1.0.0

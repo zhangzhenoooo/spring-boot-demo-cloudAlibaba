@@ -4,7 +4,7 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.zhangz.demo.spring.cloud.product.service.ProductService;
-import com.zhangz.spring.cloud.common.entity.Product;
+import com.zhangz.demo.spring.cloud.common.entity.Product;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

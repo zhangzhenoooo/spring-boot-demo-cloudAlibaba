@@ -2,7 +2,7 @@ package com.zhangz.demo.spring.cloud.product.service.impl;
 
 import com.zhangz.demo.spring.cloud.product.dao.ProductMapper;
 import com.zhangz.demo.spring.cloud.product.service.ProductService;
-import com.zhangz.spring.cloud.common.entity.Product;
+import com.zhangz.demo.spring.cloud.common.entity.Product;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

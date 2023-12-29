@@ -1,6 +1,6 @@
 package com.zhangz.demo.spring.cloud.product.service;
 
-import com.zhangz.spring.cloud.common.entity.Product;
+import com.zhangz.demo.spring.cloud.common.entity.Product;
 
 import java.util.List;
 

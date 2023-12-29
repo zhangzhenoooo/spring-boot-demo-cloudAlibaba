@@ -3,8 +3,8 @@ package com.zhangz.demo.spring.cloud.sql.elasticsearch.springcloudsqlelasticsear
 import com.zhangz.demo.spring.cloud.sql.elasticsearch.springcloudsqlelasticsearch.config.EsConnectionFactory;
 import com.zhangz.demo.spring.cloud.sql.elasticsearch.springcloudsqlelasticsearch.service.EsBaseService;
 import com.zhangz.demo.spring.cloud.sql.elasticsearch.springcloudsqlelasticsearch.utils.EsUtiles;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
-import com.zhangz.spring.cloud.common.exception.SystemException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.alias.Alias;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;

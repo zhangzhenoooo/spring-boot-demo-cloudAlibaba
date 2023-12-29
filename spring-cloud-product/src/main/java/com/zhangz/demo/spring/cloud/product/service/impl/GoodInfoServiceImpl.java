@@ -1,8 +1,6 @@
 package com.zhangz.demo.spring.cloud.product.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.text.StrBuilder;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.product.dao.GoodInfoMapper;
 import com.zhangz.demo.spring.cloud.product.dto.UserGoodSelect;
@@ -10,7 +8,7 @@ import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.product.entity.GoodProperty;
 import com.zhangz.demo.spring.cloud.product.service.GoodInfoService;
 import com.zhangz.demo.spring.cloud.product.service.GoodPropertyService;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.zhangz.demo.spring.cloud.cache.config.service.impl;
 
 import com.zhangz.demo.spring.cloud.cache.config.service.TokenService;
-import com.zhangz.spring.cloud.common.utils.UUIDUtils;
+import com.zhangz.demo.spring.cloud.common.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;

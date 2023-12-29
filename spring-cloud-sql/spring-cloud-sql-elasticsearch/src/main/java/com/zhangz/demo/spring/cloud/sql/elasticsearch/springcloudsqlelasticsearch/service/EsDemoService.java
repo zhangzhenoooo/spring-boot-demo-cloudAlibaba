@@ -1,7 +1,7 @@
 package com.zhangz.demo.spring.cloud.sql.elasticsearch.springcloudsqlelasticsearch.service;
 
-import com.zhangz.spring.cloud.common.exception.BussinessException;
-import com.zhangz.spring.cloud.common.exception.SystemException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.SystemException;
 
 import java.io.IOException;
 

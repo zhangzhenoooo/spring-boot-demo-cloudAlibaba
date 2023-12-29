@@ -36,12 +36,26 @@ spring:
           enabled: true # 让gateway 可以发现nacos中的微服务
       routes:
         - id: test
-          uri: https://www.baidu.com
+          uri: http://localhost:8086
           order: 1
           predicates:
             - Path=/test/**
+#          filters:
+#            - StripPrefix=1
+        #          前端路由
+        - id: curry-web
+          uri: http://localhost:8086
+          order: 1
+          predicates:
+            - Path=/platform/**
           filters:
             - StripPrefix=1
+            
+        - id: curry-platform
+          uri: http://localhost:8085/cloud-alibaba-platform
+          order: 1
+          predicates:
+            - Path=/cloud-alibaba-platform/**
 
         - id: cloud_product
           # 要转发到的地址 lb是指从nacos中安装名称获取微服务并且遵循负载均衡
@@ -51,8 +65,8 @@ spring:
             # 当请求路径满足断言时才进行转发 
             - Path=/cloud-alibaba-product/**
           filters:
-            # 转发之前去掉一层路径
-#            - StripPrefix=1
+          # 转发之前去掉一层路径
+        #            - StripPrefix=1
         - id: cloud_order
           # 要转发到的地址 lb是指从nacos中安装名称获取微服务并且遵循负载均衡
           uri: lb://cloud-alibaba-order

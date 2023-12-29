@@ -1,6 +1,6 @@
 package com.zhangz.demo.spring.cloud.order.service;
 
-import com.zhangz.spring.cloud.common.entity.Order;
+import com.zhangz.demo.spring.cloud.common.entity.Order;
 
 import java.util.List;
 

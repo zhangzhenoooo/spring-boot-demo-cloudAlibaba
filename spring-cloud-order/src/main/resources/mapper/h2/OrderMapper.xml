@@ -4,7 +4,7 @@
 
     <sql id="tableName">CLOUD_BS_ORDER</sql>
     
-    <select id="queryById" resultType="com.zhangz.spring.cloud.common.entity.Order">
+    <select id="queryById" resultType="com.zhangz.demo.spring.cloud.common.entity.Order">
         select * from
         <include refid="tableName"/>
         <where>

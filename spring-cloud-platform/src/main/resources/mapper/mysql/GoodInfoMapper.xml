@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangz.demo.spring.cloud.platform.dao.GoodInfoMapper">
+
+    <sql id="tableName">good_info</sql>
+
+    <select id="listByNameCategoryName" resultType="com.zhangz.demo.spring.cloud.platform.entity.GoodInfo">
+        select i.* ,c.name as categoryName from good_info i
+        left join good_category c on i.category_id = c.id
+        where 1=1
+        <if test=" goodsName != null">
+            and i.name = #{goodsName}
+        </if>
+        <if test="categoryId != null">
+            and c.category_id = #{categoryId}
+        </if>
+    </select>
+
+</mapper>

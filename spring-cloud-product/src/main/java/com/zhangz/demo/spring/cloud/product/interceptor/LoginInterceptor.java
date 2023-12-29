@@ -1,8 +1,8 @@
 package com.zhangz.demo.spring.cloud.product.interceptor;
 
 import com.zhangz.demo.spring.cloud.cache.config.service.TokenService;
-import com.zhangz.spring.cloud.common.exception.BussinessException;
-import com.zhangz.spring.cloud.common.exception.LoginException;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.common.exception.LoginException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
