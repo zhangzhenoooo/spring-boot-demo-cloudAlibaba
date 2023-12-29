@@ -12,5 +12,7 @@ import java.util.List;
 public interface GoodInfoMapper extends BaseMapper<GoodInfo> {
 
     List<GoodInfo> listByNameCategoryName(@Param("goodsName")String goodsName, @Param("categoryId") String categoryId, Page p);
+
+    long getMaxId();
     
 }

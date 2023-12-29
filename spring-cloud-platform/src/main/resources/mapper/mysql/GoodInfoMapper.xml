@@ -15,5 +15,8 @@
             and c.category_id = #{categoryId}
         </if>
     </select>
+    <select id="getMaxId" resultType="java.lang.Long">
+        select max(id) from <include refid="tableName"/>
+    </select>
 
 </mapper>

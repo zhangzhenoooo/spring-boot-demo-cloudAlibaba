@@ -1,8 +1,11 @@
 package com.zhangz.demo.spring.cloud.platform.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
+import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.platform.service.GoodInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,4 +56,12 @@ public class GoodsController {
         return CommonResult.success();
     }
 
+    @ApiOperation(value = "新增商品", notes = "新增商品")
+    @PostMapping("/add")
+    @ResponseBody
+    public CommonResult add(GoodsInfoDTO goodsInfoDTO) {
+        log.info("新增商品，商品信息：{}", JSON.toJSONString(goodsInfoDTO));
+        goodInfoService.add(goodsInfoDTO);
+        return CommonResult.success();
+    }
 }

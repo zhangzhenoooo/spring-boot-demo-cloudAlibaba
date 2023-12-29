@@ -1,9 +1,11 @@
 package com.zhangz.demo.spring.cloud.platform.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.platform.dao.GoodInfoMapper;
+import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.platform.service.GoodInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,14 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         commonPage.setPageNum(page);
         commonPage.setTotalPage(p.getTotal());
         return commonPage;
+    }
+
+    @Override
+    public void add(GoodsInfoDTO goodsInfoDTO) {
+        GoodInfo goodInfo = BeanUtil.copyProperties(goodsInfoDTO, GoodInfo.class);
+        long maxId = goodInfoMapper.getMaxId();
+        goodInfo.setId(maxId + 1);
+        goodInfoMapper.insert(goodInfo);
     }
 
 }
