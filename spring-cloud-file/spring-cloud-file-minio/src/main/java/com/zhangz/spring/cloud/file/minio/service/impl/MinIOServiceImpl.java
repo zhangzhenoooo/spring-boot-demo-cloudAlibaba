@@ -8,6 +8,7 @@ import com.alibaba.fastjson2.util.DateUtils;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import com.qcloud.cos.utils.IOUtils;
 import com.zhangz.spring.cloud.file.minio.config.FileConfig;
 import com.zhangz.spring.cloud.file.minio.config.MimeTypeEnum;
 import com.zhangz.spring.cloud.file.minio.config.MinioProperties;
@@ -16,25 +17,26 @@ import com.zhangz.spring.cloud.file.minio.dto.TaskInfoDTO;
 import com.zhangz.spring.cloud.file.minio.dto.TaskRecordDTO;
 import com.zhangz.spring.cloud.file.minio.dto.UploadTask;
 import com.zhangz.spring.cloud.file.minio.service.MinIOService;
-
 import com.zhangz.spring.cloud.file.minio.service.UploadTaskService;
 import com.zhangz.spring.cloud.file.minio.utils.UUIDUtils;
+import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
+import io.minio.errors.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,15 +44,12 @@ import java.util.stream.Collectors;
 @Component
 @Service
 public class MinIOServiceImpl implements MinIOService {
-    @Resource
-    private FileObject baseFolder;
-    
+
     @Resource
     private MinioClient minioClient;
 
     @Resource
     private FileConfig fileConfig;
- 
 
     @Resource
     private MinioProperties minioProperties;
@@ -91,23 +90,23 @@ public class MinIOServiceImpl implements MinIOService {
     }
 
     @Override
-    public boolean isExist(String path) throws FileSystemException {
+    public boolean isExist(String path) throws Exception {
         try {
-            FileObject fileObject = baseFolder.resolveFile(path);
-            return fileObject.exists();
-        } catch (FileSystemException e) {
-            throw new FileSystemException("查询异常，连接cos异常");
+            byte[] download = download(path);
+            return (null != download && download.length > 0);
+
+        } catch (Exception e) {
+            throw new Exception("查询异常，连接cos异常");
         }
     }
 
     @Override
-    public boolean remove(String path) throws FileSystemException {
+    public boolean remove(String path) throws Exception {
         try {
-            FileObject fileObject = baseFolder.resolveFile(path);
-            fileObject.delete();
+            minioClient.removeObject(RemoveObjectArgs.builder().bucket(minioProperties.getBucket()).object(path).build());
             return true;
-        } catch (FileSystemException e) {
-            throw new FileSystemException( "删除版式文件失败");
+        } catch (Exception e) {
+            throw new Exception("删除版式文件失败");
         }
     }
 
@@ -117,8 +116,8 @@ public class MinIOServiceImpl implements MinIOService {
         String bucketName = minioProperties.getBucket();
         String fileName = param.getFileName();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-        String key = StrUtil.format("{}/{}.{}", DateUtils.format(currentDate, "YYYY-MM-dd"), UUIDUtils.randomUUID() , suffix);
-        String contentType =  MimeTypeEnum.getContentType(suffix);
+        String key = StrUtil.format("{}/{}.{}", DateUtils.format(currentDate, "YYYY-MM-dd"), UUIDUtils.randomUUID(), suffix);
+        String contentType = MimeTypeEnum.getContentType(suffix);
         // 可在 ObjectMetadata 中设置加密方式等
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(contentType);
@@ -133,15 +132,15 @@ public class MinIOServiceImpl implements MinIOService {
         task.setId(UUIDUtils.randomUUID()).setBucketName(minioProperties.getBucket()).setChunkNum(chunkNum).setChunkSize(param.getChunkSize()).setTotalSize(param.getTotalSize())
             .setFileIdentifier(param.getIdentifier()).setFileName(fileName).setObjectKey(key).setUploadId(uploadId);
         uploadTaskService.save(task);
- 
+
         // 获取分片上传链接
-        Set<Pair<Integer,String>> urls = new HashSet<>(chunkNum);
+        Set<Pair<Integer, String>> urls = new HashSet<>(chunkNum);
         for (int i = 0; i < chunkNum; i++) {
             Map<String, String> params = new HashMap<>();
             params.put("partNumber", String.valueOf(i));
             params.put("uploadId", uploadId);
             String url = genPreSignUploadUrl(task.getBucketName(), task.getObjectKey(), params);
-            urls.add(Pair.of(i,url));
+            urls.add(Pair.of(i, url));
         }
 
         return new TaskInfoDTO().setSignUploadUrs(urls).setFinished(false).setTaskRecord(TaskRecordDTO.convertFromEntity(task)).setPath(getPath(bucketName, key));
@@ -212,37 +211,12 @@ public class MinIOServiceImpl implements MinIOService {
         return StrUtil.format("{}/{}/{}", minioProperties.getEndpoint(), bucket, objectKey);
     }
 
-    private byte[] download(String path) throws FileSystemException, org.apache.commons.vfs2.FileSystemException {
-        FileObject fileObject = baseFolder.resolveFile(path);
+    private byte[] download(String path) throws ServerException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IOException,
+        NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         byte[] bytes = new byte[0];
-        if (fileObject.exists()) {
-            // 获取文件的类型
-            String extension = fileObject.getName().getExtension();
-            // 读取文本内容
-            bytes = inputStreamToByteArray(fileObject.getContent().getInputStream());
-        }
+        InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(minioProperties.getBucket()).object(path).build());
+        bytes = IOUtils.toByteArray(inputStream);
         return bytes;
-    }
-
-    /**
-     * inputStream转byte数组
-     *
-     * @param inputStream 输入流对象
-     * @return byte数组
-     */
-    public static byte[] inputStreamToByteArray(InputStream inputStream) {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[1024];
-            int num;
-            while ((num = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, num);
-            }
-            byteArrayOutputStream.flush();
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            log.error("inputStream to byte[] 转换异常", e);
-        }
-        return new byte[] {};
     }
 
     /**

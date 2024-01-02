@@ -4,7 +4,6 @@ import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +11,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Slf4j
 public class FileConfig {
-    @Value("${nontax3.vfs.minio.accessKey}")
+    @Value("${file.minio.accessKey}")
     private String minioAccessKey;
-    @Value("${nontax3.vfs.minio.bucketName}")
+    @Value("${file.minio.bucketName}")
     private String minioBucketName;
-    @Value("${nontax3.vfs.minio.region}")
+    @Value("${file.minio.region}")
     private String minioRegion;
-    @Value("${nontax3.vfs.minio.secretKey}")
+    @Value("${file.minio.secretKey}")
     private String minioSecretKey;
 
     @Bean
