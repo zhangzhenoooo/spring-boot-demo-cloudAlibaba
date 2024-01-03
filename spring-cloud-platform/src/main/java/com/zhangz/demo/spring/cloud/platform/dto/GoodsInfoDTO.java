@@ -29,7 +29,7 @@ public class GoodsInfoDTO implements Serializable {
     private int recommendStatus;
     private String recommendStatusStr;
     private int hidden;
-    private List<Integer> afterSale;
+    private String afterSale;
     private int status;
     private String content;
     private BigDecimal originalPrice;
@@ -42,4 +42,5 @@ public class GoodsInfoDTO implements Serializable {
     private int minBuyNumber;
     private long stores;
     private Long storeAlertNum;
+    private String pic;
 }

@@ -60,12 +60,12 @@ public class MinIOServiceImpl implements MinIOService {
     private UploadTaskService uploadTaskService;
 
     @Override
-    public void upload(byte[] bytes, String filePath) throws IOException {
-        String fileType = filePath.substring(filePath.lastIndexOf(".") + 1);
+    public void upload(byte[] bytes, String objectId) throws IOException {
+        String fileType = objectId.substring(objectId.lastIndexOf(".") + 1);
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         PutObjectArgs putObjectArgs = PutObjectArgs.builder().contentType(MimeTypeEnum.getContentType(fileType)).stream(inputStream, inputStream.available(), -1)
-            .bucket(fileConfig.getMinioBucketName()).object(filePath).build();
+            .bucket(fileConfig.getMinioBucketName()).object(objectId).build();
         try {
             minioClient.putObject(putObjectArgs);
         } catch (Exception e) {

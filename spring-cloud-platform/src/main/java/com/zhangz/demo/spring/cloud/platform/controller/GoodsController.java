@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.platform.dto.DeleteGoodsDTO;
 import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.platform.service.GoodInfoService;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /*
  * @Author：zhangz
@@ -63,5 +65,14 @@ public class GoodsController {
         log.info("新增商品，商品信息：{}", JSON.toJSONString(goodsInfoDTO));
         goodInfoService.add(goodsInfoDTO);
         return CommonResult.success();
+    }
+
+    @ApiOperation(value = "批量删除", notes = "批量删除")
+    @PostMapping("/deleteBatch")
+    @ResponseBody
+    public CommonResult deleteBatch(@RequestBody DeleteGoodsDTO dto) {
+        log.info("批量删除：{}", JSON.toJSONString(dto));
+        goodInfoService.removeByIds(dto.getIds());
+         return CommonResult.success();
     }
 }

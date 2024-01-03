@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public interface MinIOService {
 
-    void upload(byte[] bytes, String filePath) throws IOException;
+    void upload(byte[] bytes, String objectId) throws IOException;
 
     byte[] downByPath(String filePath) throws Exception;
 

@@ -8,6 +8,10 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: cloud-alibaba-platform
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
   datasource:
     name: mysql
     type: com.alibaba.druid.pool.DruidDataSource
@@ -19,3 +23,12 @@ spring:
 swagger:
   enable: true
   version: 1.0.0
+  
+  
+file:
+  minio:
+    accessKey: minioadmin
+    bucketName: curry
+    region: http://192.168.1.225:9000
+    secretKey: minioadmin
+    

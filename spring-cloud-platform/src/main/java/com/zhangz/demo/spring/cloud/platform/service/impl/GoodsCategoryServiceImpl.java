@@ -62,7 +62,7 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
 
         if (null == id) {
             // 新增
-            goodsCategory.setId(123123);
+            goodsCategory.setId(goodsCategoryMapper.getMaxId() + 1);
             goodsCategory.setLevel(0);
             goodsCategory.setPaixu(0);
             goodsCategory.setPid(0);

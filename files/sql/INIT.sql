@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS good_info (
                             weight INT(11)
 );
 
- 
+ALTER TABLE good_info ADD content varchar(1000) NULL COMMENT '详细介绍';
+
 
 CREATE TABLE IF NOT EXISTS notice (
                         id INT(11) PRIMARY KEY,

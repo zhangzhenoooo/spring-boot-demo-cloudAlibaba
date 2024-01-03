@@ -1,8 +1,10 @@
 package com.zhangz.demo.spring.cloud.platform.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.api.CommonResult;
 import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.platform.dto.DeleteGoodsDTO;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodsCategory;
 import com.zhangz.demo.spring.cloud.platform.service.GoodsCategoryService;
 import io.swagger.annotations.Api;
@@ -73,4 +75,12 @@ public class GoodsCategoryController {
         return CommonResult.success();
     }
 
+    @ApiOperation(value = "批量删除", notes = "批量删除")
+    @PostMapping("/deleteBatch")
+    @ResponseBody
+    public CommonResult deleteBatch(@RequestBody DeleteGoodsDTO dto) {
+        log.info("批量删除：{}", JSON.toJSONString(dto));
+        goodsCategoryService.removeByIds(dto.getIds());
+        return CommonResult.success();
+    }
 }

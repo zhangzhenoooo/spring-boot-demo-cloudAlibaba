@@ -61,6 +61,8 @@ public class GoodInfo implements Serializable {
     private boolean hasTourJourney;
     @TableField("hidden")
     private int hidden;
+    @TableField("content")
+    private String content;
     @TableField("kanjia")
     private boolean kanjia;
     /**

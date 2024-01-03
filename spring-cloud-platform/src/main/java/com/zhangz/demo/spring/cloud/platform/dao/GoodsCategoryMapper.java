@@ -15,4 +15,6 @@ public interface GoodsCategoryMapper extends BaseMapper<GoodsCategory> {
     List<GoodsCategory> listByShopIdAndIdName(@Param("categoryName") String categoryName, @Param("shopid") Integer shopid, @Param("id") String id, Page page);
 
     void removeAllByShopId(@Param("shopid") Long shopid);
+
+    long  getMaxId();
 }

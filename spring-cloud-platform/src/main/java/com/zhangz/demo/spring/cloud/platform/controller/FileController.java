@@ -1,11 +1,16 @@
 package com.zhangz.demo.spring.cloud.platform.controller;
 
+import cn.hutool.core.io.FileTypeUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
 import com.zhangz.demo.spring.cloud.platform.service.GoodInfoService;
+import com.zhangz.spring.cloud.file.minio.config.MinioProperties;
+import com.zhangz.spring.cloud.file.minio.service.MinIOService;
+import com.zhangz.spring.cloud.file.minio.utils.UUIDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 /*
  * @Author：zhangz
@@ -33,13 +39,29 @@ import javax.annotation.Resource;
 @Api(tags = "文件上传")
 public class FileController {
 
- 
- 
+    @Resource
+    private MinIOService minIOService;
+    @Resource
+    private MinioProperties minioProperties;
+
     @ApiOperation(value = "上传文件", notes = "上传文件")
     @PostMapping("/upload")
     @ResponseBody
-    public CommonResult upload(MultipartFile file) {
-    
-        return CommonResult.success();
+    public CommonResult upload(@RequestParam("file") MultipartFile file, String shopid) throws BussinessException {
+        String url = null;
+        try {
+            String objectId = getObjectId(shopid, FileTypeUtil.getType(file.getInputStream()));
+            minIOService.upload(file.getBytes(), objectId);
+            url = minioProperties.getEndpoint() + "/" + minioProperties.getBucket() + '/' + objectId;
+        } catch (Exception e) {
+            log.error("文件上传失败", e);
+            throw new BussinessException("系统异常");
+        }
+        return CommonResult.success(url);
+    }
+
+    private String getObjectId(String shopid, String fileType) {
+        String objectId = "goodsFile/" + shopid + "/" + UUIDUtils.randomUUID() + "." + fileType;
+        return objectId;
     }
 }

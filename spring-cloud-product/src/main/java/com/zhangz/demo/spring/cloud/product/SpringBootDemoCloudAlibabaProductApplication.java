@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @DubboComponentScan
 @MapperScan("com.zhangz.demo.spring.cloud.product.dao")
-@ComponentScan(basePackages = {"com.zhangz.demo.spring.cloud.product","com.zhangz.demo.spring.cloud.common"
+@ComponentScan(basePackages = {"com.zhangz.demo.spring.cloud.product","com.zhangz.demo.spring.cloud.common","com.zhangz.demo.spring.cloud.cache"
 })
 public class SpringBootDemoCloudAlibabaProductApplication {
 

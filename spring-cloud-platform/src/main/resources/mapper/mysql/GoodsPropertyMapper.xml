@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangz.demo.spring.cloud.platform.dao.GoodsPropertyMapper">
+
+    <sql id="tableName">good_property</sql>
+    <select id="listByPropertyId" resultType="com.zhangz.demo.spring.cloud.platform.entity.GoodsProperty">
+        select * from
+        <include refid="tableName"/>
+        where property_id = #{propertyId}
+    </select>
+    <select id="getMaxId" resultType="java.lang.Integer">
+        select max(id) from
+        <include refid="tableName"/>
+    </select>
+
+
+</mapper>

@@ -60,6 +60,8 @@ public class GoodInfo implements Serializable {
     private int hidden;
     @TableField("kanjia")
     private boolean kanjia;
+    @TableField("content")
+    private String content;
     /**
      * 砍价
      */
