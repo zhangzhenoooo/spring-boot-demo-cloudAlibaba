@@ -42,9 +42,7 @@ public class GoodsController {
     @PostMapping("/list")
     @ResponseBody
     public CommonResult list(String goodsName, String categoryName, Integer page, Integer pageSize) {
-        String str =
-            "[{\"addUser\": null, \"editUser\": null, \"addTime\": 1521062371000, \"editTime\": 1526700200000, \"deptId\": 2, \"deptName\": \"XX分公司\", \"deptNo\": \"1\", \"parentId\": 1 }, {\"addUser\": null, \"editUser\": null, \"addTime\": 1521063247000, \"editTime\": 1526652291000, \"deptId\": 3, \"deptName\": \"上海测试\", \"deptNo\": \"02\", \"parentId\": 1 }, {\"addUser\": null, \"editUser\": null, \"addTime\": 1526349555000, \"editTime\": 1526349565000, \"deptId\": 12, \"deptName\": \"1\", \"deptNo\": \"11\", \"parentId\": 1 }, {\"addUser\": null, \"editUser\": null, \"addTime\": 1526373178000, \"editTime\": 1526373178000, \"deptId\": 13, \"deptName\": \"5\", \"deptNo\": \"5\", \"parentId\": 1 }, {\"addUser\": null, \"editUser\": null, \"addTime\": 1526453107000, \"editTime\": 1526453107000, \"deptId\": 17, \"deptName\": \"v\", \"deptNo\": \"v\", \"parentId\": 1 } ]";
-        JSONArray objects = JSONArray.parseArray(str);
+    
         CommonPage commonPage = goodInfoService.listByNameCategoryName(goodsName, categoryName, page, pageSize);
         return CommonResult.success(commonPage);
     }

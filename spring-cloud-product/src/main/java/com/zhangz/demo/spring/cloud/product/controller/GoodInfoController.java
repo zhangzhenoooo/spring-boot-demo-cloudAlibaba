@@ -108,10 +108,10 @@ public class GoodInfoController {
     @ResponseBody
     public CommonResult goodsAddition(String goodsId) {
         log.info("detail params goodsId:{}", goodsId);
-        String list =
-            "[{\"categoryId\":0,\"id\":107,\"items\":[{\"id\":278,\"name\":\"1\",\"pid\":107,\"price\":0.00},{\"id\":279,\"name\":\"2\",\"pid\":107,\"price\":0.00}],\"name\":\"测试\",\"required\":true,\"type\":0}]";
-        List<GoodAddition> goodAdditions = JSONArray.parseArray(list, GoodAddition.class);
-        return CommonResult.success(goodAdditions);
+        // String list =
+        //     "[{\"categoryId\":0,\"id\":107,\"items\":[{\"id\":278,\"name\":\"1\",\"pid\":107,\"price\":0.00},{\"id\":279,\"name\":\"2\",\"pid\":107,\"price\":0.00}],\"name\":\"测试\",\"required\":true,\"type\":0}]";
+        // List<GoodAddition> goodAdditions = JSONArray.parseArray(list, GoodAddition.class);
+        return CommonResult.success();
     }
 
     // times/schedule

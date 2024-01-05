@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangz.demo.spring.cloud.platform.dao.UserInfoMapper">
+
+    <sql id="tableName">user_info</sql>
+    <select id="listByNamePhone" resultType="com.zhangz.demo.spring.cloud.platform.entity.UserInfo">
+        select * from
+        <include refid="tableName"/>
+        where 1=1
+        <if test=" userName != null and userName != ''">
+            and user_name =${userName}
+        </if>
+        <if test="phone != null and phone != ''">
+            and phone = #{phone}
+        </if>
+    </select>
+
+
+</mapper>
