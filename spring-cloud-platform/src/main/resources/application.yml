@@ -32,3 +32,7 @@ file:
     region: http://192.168.1.225:9000
     secretKey: minioadmin
     
+    
+    
+custome:
+  pubUrl: https://620012dc.r3.cpolar.cn

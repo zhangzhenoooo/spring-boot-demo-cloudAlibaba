@@ -14,6 +14,7 @@ import com.zhangz.spring.cloud.file.minio.utils.UUIDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,10 @@ public class FileController {
     private MinIOService minIOService;
     @Resource
     private MinioProperties minioProperties;
+    
+    
+    @Value("${custome.pubUrl}")
+    private String pubUrl;
 
     @ApiOperation(value = "上传文件", notes = "上传文件")
     @PostMapping("/upload")
@@ -52,7 +57,7 @@ public class FileController {
         try {
             String objectId = getObjectId(shopid, FileTypeUtil.getType(file.getInputStream()));
             minIOService.upload(file.getBytes(), objectId);
-            url = minioProperties.getEndpoint() + "/" + minioProperties.getBucket() + '/' + objectId;
+            url = pubUrl + "/" + minioProperties.getBucket() + '/' + objectId;
         } catch (Exception e) {
             log.error("文件上传失败", e);
             throw new BussinessException("系统异常");
