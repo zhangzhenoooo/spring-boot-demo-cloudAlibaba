@@ -60,7 +60,7 @@ public class GatewayConfiguration {
         Set<GatewayFlowRule> rules = new HashSet<>();
         // 以路由id为单元
         rules.add(new GatewayFlowRule("cloud_product") // 资源名称,对应路由id
-            .setCount(1) // 限流阈值
+            .setCount(10000) // 限流阈值
             .setIntervalSec(1) // 统计时间窗口，单位是秒，默认是 1 秒
         );
         // 以自定义api路径为单元

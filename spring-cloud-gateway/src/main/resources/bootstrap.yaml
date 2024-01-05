@@ -50,7 +50,7 @@ spring:
         - id: cloud_product
           # 要转发到的地址 lb是指从nacos中安装名称获取微服务并且遵循负载均衡
           uri: lb://cloud-alibaba-product
-          order: 1
+          order: 6
           predicates:
             # 当请求路径满足断言时才进行转发 
             - Path=/cloud-alibaba-product/**
