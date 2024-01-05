@@ -35,22 +35,12 @@ spring:
         locator:
           enabled: true # 让gateway 可以发现nacos中的微服务
       routes:
-        - id: test
-          uri: http://localhost:8086
-          order: 1
-          predicates:
-            - Path=/test/**
-#          filters:
-#            - StripPrefix=1
-        #          前端路由
         - id: curry-web
           uri: http://localhost:8086
           order: 1
           predicates:
             - Path=/platform/**
-          filters:
-            - StripPrefix=1
-            
+          
         - id: curry-platform
           uri: http://localhost:8085/cloud-alibaba-platform
           order: 1

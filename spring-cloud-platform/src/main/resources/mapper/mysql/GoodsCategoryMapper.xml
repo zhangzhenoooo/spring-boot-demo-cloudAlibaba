@@ -22,7 +22,7 @@
         </if>
     </select>
     <select id="getMaxId" resultType="java.lang.Long">
-        select max(id) from
+        select  COALESCE(MAX(id), 10000) from
         <include refid="tableName"/>
     </select>
 

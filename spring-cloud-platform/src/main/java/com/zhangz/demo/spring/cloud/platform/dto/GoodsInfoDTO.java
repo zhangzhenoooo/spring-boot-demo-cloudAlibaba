@@ -43,4 +43,9 @@ public class GoodsInfoDTO implements Serializable {
     private long stores;
     private Long storeAlertNum;
     private String pic;
+    /**
+     *  规格 jsonArray
+     */
+    private String properties;
+    
 }

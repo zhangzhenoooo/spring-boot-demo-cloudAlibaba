@@ -1,6 +1,11 @@
 package com.zhangz.demo.spring.cloud.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ArrayUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
@@ -9,10 +14,12 @@ import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.platform.service.GoodInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /*
  * @Author：zhangz
@@ -50,6 +57,27 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
     @Override
     public void add(GoodsInfoDTO goodsInfoDTO) {
         GoodInfo goodInfo = BeanUtil.copyProperties(goodsInfoDTO, GoodInfo.class);
+        String properties = goodsInfoDTO.getProperties();
+        JSONArray objects = JSONArray.parseArray(properties);
+        if (StringUtils.isNotEmpty(properties)) {
+
+            Set<String> set = new HashSet<>();
+            for (Object object : objects) {
+                for (Object o : (JSONArray)object) {
+                    if (o instanceof JSONObject) {
+                        JSONObject item = (JSONObject)o;
+                        String[] propIds = StringUtils.split(item.getString("propIds"), ",");
+                        set.addAll(Arrays.stream(propIds).collect(Collectors.toSet()));
+                        log.info(JSONObject.toJSONString(item));
+                    }
+                }
+
+            }
+            goodInfo.setPropertyIds(StringUtils.join(set, ","));
+
+        }
+        goodInfo.setDateAdd(DateUtil.formatDateTime(new Date()));
+        goodInfo.setRecommendStatusStr("普通");
         long maxId = goodInfoMapper.getMaxId();
         goodInfo.setId(maxId + 1);
         goodInfoMapper.insert(goodInfo);

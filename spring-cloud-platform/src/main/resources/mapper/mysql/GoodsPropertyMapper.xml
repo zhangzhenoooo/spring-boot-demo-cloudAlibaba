@@ -7,9 +7,12 @@
         select * from
         <include refid="tableName"/>
         where property_id = #{propertyId}
+        <if test="null != name and name != '' ">
+            name = #{name}
+        </if>
     </select>
     <select id="getMaxId" resultType="java.lang.Integer">
-        select max(id) from
+        select  COALESCE(MAX(id), 10000) from
         <include refid="tableName"/>
     </select>
 

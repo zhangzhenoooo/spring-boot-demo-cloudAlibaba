@@ -5,6 +5,7 @@ import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodsCategory;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodsProperty;
+import com.zhangz.demo.spring.cloud.platform.vo.GoodsPropertyVO;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface GoodsPropertyService extends IService<GoodsProperty> {
 
     void addOrUpdate(Long id, String name,Integer parentPropertyId) throws BussinessException;
 
+    List<GoodsPropertyVO> tree(String name);
+    
 }
