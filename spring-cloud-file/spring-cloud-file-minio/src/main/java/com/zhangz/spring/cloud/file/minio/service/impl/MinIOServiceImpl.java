@@ -8,7 +8,7 @@ import com.alibaba.fastjson2.util.DateUtils;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
-import com.qcloud.cos.utils.IOUtils;
+import com.amazonaws.util.IOUtils;
 import com.zhangz.spring.cloud.file.minio.config.FileConfig;
 import com.zhangz.spring.cloud.file.minio.config.MimeTypeEnum;
 import com.zhangz.spring.cloud.file.minio.config.MinioProperties;

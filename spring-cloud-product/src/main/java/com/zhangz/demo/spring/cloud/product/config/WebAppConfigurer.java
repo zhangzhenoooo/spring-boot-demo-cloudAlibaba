@@ -103,6 +103,21 @@ public class WebAppConfigurer implements WebMvcConfigurer {
                         "/**/goods/**",
                         "/doc.html",
                         "/pages/**",
-                        "/**/error");
+                        "/**/error",
+                        "/**/gateway/account/**",
+                        "/**/gateway/icloud/login/**",
+//                        "/**/gateway/standard/getPdfByXml/**",
+                        "/**/weChat/**",
+                        "/**/webSocket/**",
+                        "/**/h5/**",
+                        "/**/druid/**",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/v2/**",
+                        "/swagger-ui.html/**",
+                        "/doc.html",
+                        "/pages/**",
+                        "/**/innerRest/**",
+                        "/**/common/**");
     }
 }
