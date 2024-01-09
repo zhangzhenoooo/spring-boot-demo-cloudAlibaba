@@ -1,38 +1,19 @@
-server:
-  port: 8085
-  servlet:
-    context-path: /cloud-alibaba-platform
-
 spring:
-  main:
-    allow-bean-definition-overriding: true
-  application:
-    name: cloud-alibaba-platform
-  servlet:
-    multipart:
-      max-request-size: 100MB
-      max-file-size: 100MB
-  datasource:
-    name: mysql
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://192.168.1.188:3306/curry?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root
-
-swagger:
-  enable: true
-  version: 1.0.0
-  
-  
-file:
-  minio:
-    accessKey: minioadmin
-    bucketName: curry
-    region: http://192.168.1.225:9000
-    secretKey: minioadmin
-    
-    
-    
-custome:
-  pubUrl: https://620012dc.r3.cpolar.cn
+  profiles:
+    active: prod
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.250:8848
+        # 集群
+      #        cluster-name: test
+      #        namespace: configManager
+      config:
+        server-addr: 192.168.1.250:8848
+        # 指定分组 根据项目分组
+        #        group: provider
+        # 指定文件名，没有则默认${spring.application.name}
+        # 指定读取配置中心文件后缀
+        file-extension: yaml
+        shared-dataids: all-server.yaml # 配置要引入的配置 新吧版本已弃用
+        refreshable-dataids: all-server.yaml # 配置需要动态刷新的配置
