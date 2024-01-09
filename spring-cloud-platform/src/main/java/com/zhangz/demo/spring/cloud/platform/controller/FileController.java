@@ -1,5 +1,6 @@
 package com.zhangz.demo.spring.cloud.platform.controller;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Date;
 
 /*
  * @Author：zhangz
@@ -66,7 +68,8 @@ public class FileController {
     }
 
     private String getObjectId(String shopid, String fileType) {
-        String objectId = "goodsFile/" + shopid + "/" + UUIDUtils.randomUUID() + "." + fileType;
+        String format = DateUtil.format(new Date(), "yyyy-MM-dd");
+        String objectId = "goodsFile/" +  format.replaceAll("-","/") + "/" + UUIDUtils.randomUUID() + "." + fileType;
         return objectId;
     }
 }

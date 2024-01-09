@@ -1,6 +1,6 @@
 /**
-  * Copyright 2024 json.cn 
-  */
+ * Copyright 2024 json.cn
+ */
 package com.zhangz.demo.spring.cloud.platform.dto;
 
 import lombok.Data;
@@ -16,10 +16,8 @@ import java.io.Serializable;
 @Data
 public class PropertyDTO implements Serializable {
 
-    private long pid;
-    private String pname;
-    private long cid;
-    private String cname;
- 
+    private String lable;
+    private long key;
+    private String propIds;
 
 }

@@ -9,8 +9,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.platform.constant.GoodsInfoEnum;
 import com.zhangz.demo.spring.cloud.platform.dao.GoodInfoMapper;
 import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
+import com.zhangz.demo.spring.cloud.platform.dto.PropertyDTO;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.platform.service.GoodInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +59,7 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
 
     @Override
     public void add(GoodsInfoDTO goodsInfoDTO) {
+        Long id = goodsInfoDTO.getId();
         GoodInfo goodInfo = BeanUtil.copyProperties(goodsInfoDTO, GoodInfo.class);
         String properties = goodsInfoDTO.getProperties();
         JSONArray objects = JSONArray.parseArray(properties);
@@ -78,9 +82,27 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         }
         goodInfo.setDateAdd(DateUtil.formatDateTime(new Date()));
         goodInfo.setRecommendStatusStr("普通");
-        long maxId = goodInfoMapper.getMaxId();
-        goodInfo.setId(maxId + 1);
-        goodInfoMapper.insert(goodInfo);
+        goodInfo.setStatusStr(GoodsInfoEnum.getDescByState(goodInfo.getStatus()));
+
+        if (null != id) {
+            goodInfo.setId(id);
+            goodInfoMapper.updateById(goodInfo);
+        } else {
+            long maxId = goodInfoMapper.getMaxId();
+            goodInfo.setId(maxId + 1);
+            goodInfoMapper.insert(goodInfo);
+        }
+    }
+
+    @Override
+    public GoodsInfoDTO goodsDetailById(Long id) throws BussinessException {
+
+        if (null == id) {
+            throw new BussinessException("参数不能为空");
+        }
+        GoodInfo goodInfo = goodInfoMapper.selectById(id);
+        GoodsInfoDTO goodsInfoDTO = BeanUtil.copyProperties(goodInfo, GoodsInfoDTO.class);
+        return goodsInfoDTO;
     }
 
 }

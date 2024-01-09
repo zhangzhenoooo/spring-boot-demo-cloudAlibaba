@@ -2,6 +2,7 @@ package com.zhangz.demo.spring.cloud.platform.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
 
@@ -19,5 +20,6 @@ public interface GoodInfoService extends IService<GoodInfo> {
     CommonPage listByNameCategoryName(String goodsName, String categoryName, Integer page, Integer pageSize);
 
     void add(GoodsInfoDTO goodsInfoDTO);
-    
+
+    GoodsInfoDTO goodsDetailById(Long id) throws BussinessException;
 }

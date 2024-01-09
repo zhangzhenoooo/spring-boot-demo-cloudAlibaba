@@ -7,7 +7,7 @@
     <select id="listByCategory" resultType="com.zhangz.demo.spring.cloud.product.entity.GoodInfo">
         select * from
         <include refid="tableName"/>
-        where category_id = #{categoryId}
+        where status = 0 and category_id = #{categoryId}
         <if test="from != null and pageSize != null">
             LIMIT #{pageSize} OFFSET #{from}
         </if>

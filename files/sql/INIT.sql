@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS `good_category`;
 
 CREATE TABLE  IF NOT EXISTS good_category (
     id BIGINT(20) PRIMARY KEY,
-    isUse BOOLEAN,
+    is_use BOOLEAN,
     level INT(11),
     name VARCHAR(255),
     paixu INT(11),
@@ -198,3 +198,8 @@ ALTER TABLE user_info ADD nick varchar(100) NULL COMMENT '昵称';
 ALTER TABLE user_info CHANGE nick nick varchar(100) NULL COMMENT '昵称' AFTER user_name;
 ALTER TABLE user_info ADD avatar_url varchar(100) NULL COMMENT '头像地址';
 ALTER TABLE curry.user_info ADD `level` TINYINT DEFAULT 0 NOT NULL COMMENT '用户等级 0：普通用户，1 : vip ,2:vvip , 3 :vvvip , 4: 大爷，5;上帝';
+
+
+ALTER TABLE good_info ADD property_str varchar(4000) NULL COMMENT '商品规格JSON';
+ALTER TABLE good_info ADD stores_alert_num INT(11) DEFAULT 0 NOT NULL COMMENT '库存警戒线';
+ALTER TABLE good_info MODIFY COLUMN after_sale varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 0 NULL;

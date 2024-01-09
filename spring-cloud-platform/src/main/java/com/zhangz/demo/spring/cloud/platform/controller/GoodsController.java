@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import com.zhangz.demo.spring.cloud.platform.dto.DeleteGoodsDTO;
 import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
@@ -47,6 +48,16 @@ public class GoodsController {
         return CommonResult.success(commonPage);
     }
 
+    @ApiOperation(value = "商品详情", notes = "商品详情")
+    @GetMapping("/detail")
+    @ResponseBody
+    public CommonResult detail(Long id) throws BussinessException {
+        log.info("商品详情，商品id：{}", id);
+        GoodsInfoDTO goodInfo = goodInfoService.goodsDetailById(id);
+        return CommonResult.success(goodInfo);
+    }
+    
+    
     @ApiOperation(value = "删除商品", notes = "删除商品")
     @GetMapping("/delete")
     @ResponseBody

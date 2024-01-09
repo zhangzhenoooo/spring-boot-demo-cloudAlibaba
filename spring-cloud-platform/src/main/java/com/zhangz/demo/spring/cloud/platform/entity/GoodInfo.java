@@ -30,7 +30,7 @@ public class GoodInfo implements Serializable {
     @TableId("id")
     private long id;
     @TableField("after_sale")
-    private String after_sale;
+    private String afterSale;
     @TableField("category_id")
     private long categoryId;
     
@@ -147,6 +147,9 @@ public class GoodInfo implements Serializable {
     private boolean storeAlert;
     @TableField("stores")
     private long stores;
+    @TableField("stores_alert_num")
+    private long storeAlertNum;
+    
     @TableField("stores0_unsale")
     private boolean stores0Unsale;
     @TableField("stores_ext1")
@@ -172,5 +175,7 @@ public class GoodInfo implements Serializable {
     private int views;
     @TableField("weight")
     private int weight;
+    @TableField("property_str")
+    private String propertyStr;
 
 }
