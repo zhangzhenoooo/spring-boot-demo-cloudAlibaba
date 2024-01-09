@@ -2,3 +2,6 @@ server:
   port: 8888
   servlet:
     context-path: /cloud-alibaba-product
+spring:
+  profiles:
+    active: prod 

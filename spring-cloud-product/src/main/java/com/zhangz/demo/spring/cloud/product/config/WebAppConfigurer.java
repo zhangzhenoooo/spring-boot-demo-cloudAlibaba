@@ -117,6 +117,7 @@ public class WebAppConfigurer implements WebMvcConfigurer {
                         "/swagger-ui.html/**",
                         "/doc.html",
                         "/pages/**",
+                "/config/getAllServerConfig",
                         "/**/innerRest/**",
                         "/**/common/**");
     }
