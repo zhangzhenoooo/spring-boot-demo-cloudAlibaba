@@ -4,4 +4,4 @@ server:
     context-path: /cloud-alibaba-product
 spring:
   profiles:
-    active: prod 
+    active: dev
