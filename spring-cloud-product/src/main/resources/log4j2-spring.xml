@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <properties>
+        <!-- 文件输出格式 -->
+        <property name="PATTERN">[%-5level] %d [%t] [%logger{30}(%F:%L)] %msg %n</property>
+        <property name="SIMPLE_PATTERN">%msg %n</property>
+        <Property name="FILE_PATH">./logs/</Property>
+        <property name="LOG_EXPIRE">15d</property>
+        <property name="LOG_SIZE">200MB</property>
+    </properties>
+    <appenders>
+        <!--控制台日志-->
+        <Console name="stdout" target="system_out">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <!--业务日志-->
+        <RollingFile name="bs" fileName="${FILE_PATH}/bs.log" filePattern="${FILE_PATH}/bs.%d{yyyy-MM-dd}-%i.log.zip">
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="${LOG_SIZE}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="90">
+                <Delete basePath="${FILE_PATH}">
+                    <IfFileName regex=".*log.zip"/>
+                    <IfLastModified age="${LOG_EXPIRE}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+        </RollingFile>
+
+        <!--登录日志-->
+        <RollingFile name="login" fileName="${FILE_PATH}/login.log"
+                     filePattern="${FILE_PATH}/login.%d{yyyy-MM-dd}-%i.log.zip">
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="${LOG_SIZE}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="90">
+                <Delete basePath="${FILE_PATH}">
+                    <IfFileName regex=".*log.zip"/>
+                    <IfLastModified age="${LOG_EXPIRE}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+        </RollingFile>
+
+        <!--访问系统日志-->
+        <RollingFile name="access" fileName="${FILE_PATH}/access.log"
+                     filePattern="${FILE_PATH}/access.%d{yyyy-MM-dd}-%i.log.zip">
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="${LOG_SIZE}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="90">
+                <Delete basePath="${FILE_PATH}">
+                    <IfFileName regex=".*log.zip"/>
+                    <IfLastModified age="${LOG_EXPIRE}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+        </RollingFile>
+
+        <!-- 日志异步配置,可不开启异步 includeLocation：设置成true，否则指定了行号也显示不出来；-->
+        <Async name="bsAsync" blocking="false" includeLocation="true">
+            <AppenderRef ref="bs"/>
+        </Async>
+        <Async name="loginAsync" blocking="false" includeLocation="true">
+            <AppenderRef ref="login"/>
+        </Async>
+        <Async name="accessAsync" blocking="false" includeLocation="true">
+            <AppenderRef ref="access"/>
+        </Async>
+    </appenders>
+    <loggers>
+        <logger name="com.zhangz" level="INFO" additivity="false">
+            <appender-ref ref="bsAsync"/>
+        </logger>
+
+        <root level="WARN">
+            <appender-ref ref="stdout"/>
+        </root>
+    </loggers>
+</configuration>

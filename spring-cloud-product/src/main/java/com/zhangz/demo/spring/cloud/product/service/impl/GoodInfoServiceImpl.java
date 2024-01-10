@@ -11,11 +11,14 @@ import com.zhangz.demo.spring.cloud.product.service.GoodPropertyService;
 import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
  * @Author：zhangz
@@ -32,24 +35,30 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@RefreshScope
 public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> implements GoodInfoService {
     @Resource
     private GoodInfoMapper goodInfoMapper;
     @Resource
     private GoodPropertyService goodPropertyService;
+
+    @Value("${product.domain:http://127.0.0.1:8080}")
+    private String doMain;
+
     @Override
     public List<GoodInfo> listByCategory(int page, int pageSize, String categoryId) {
-        if (StringUtils.isEmpty(categoryId)){
+        if (StringUtils.isEmpty(categoryId)) {
             return new ArrayList<>(0);
         }
         int from = (page - 1) * pageSize;
-        return goodInfoMapper.listByCategory(from,pageSize, categoryId);
+        List<GoodInfo> goodInfoList = goodInfoMapper.listByCategory(from, pageSize, categoryId);
+        return goodInfoList.stream().map(g -> g.setPic(doMain + g.getPic())).collect(Collectors.toList());
     }
 
     @Override
     public UserGoodSelect price(Integer goodsId, String propertyChildIds) throws BussinessException {
         GoodInfo goodInfo = goodInfoMapper.selectById(goodsId);
-        if (null == goodInfo){
+        if (null == goodInfo) {
             throw new BussinessException("产品不存在");
         }
         StringBuffer propertyChildNamesBuf = new StringBuffer();
@@ -62,7 +71,7 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
             propertyChildNamesBuf.append(":");
             propertyChildNamesBuf.append(value.getName());
         }
-        UserGoodSelect u = BeanUtil.copyProperties(goodInfo,UserGoodSelect.class);
+        UserGoodSelect u = BeanUtil.copyProperties(goodInfo, UserGoodSelect.class);
         u.setGoodsId(goodInfo.getId());
         u.setPropertyChildIds(propertyChildIds);
         u.setPropertyChildNames(propertyChildNamesBuf.toString());

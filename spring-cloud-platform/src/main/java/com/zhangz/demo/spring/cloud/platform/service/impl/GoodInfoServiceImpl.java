@@ -18,12 +18,13 @@ import com.zhangz.demo.spring.cloud.platform.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.platform.service.GoodInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 /*
  * @Author：zhangz
@@ -40,9 +41,13 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@RefreshScope
 public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> implements GoodInfoService {
     @Resource
     private GoodInfoMapper goodInfoMapper;
+
+    @Value("${custome.pubUrl}")
+    private String pubUrl;
 
     @Override
     public CommonPage listByNameCategoryName(String goodsName, String categoryName, Integer page, Integer pageSize) {
@@ -51,8 +56,9 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         p.setCurrent(page);
         String categoryId = null;
         List<GoodInfo> goodInfoList = goodInfoMapper.listByNameCategoryName(goodsName, categoryId, p);
+        List<GoodInfo> collect = goodInfoList.stream().map(g -> g.setPic(pubUrl + g.getPic())).collect(Collectors.toList());
         CommonPage commonPage = new CommonPage();
-        commonPage.setList(goodInfoList);
+        commonPage.setList(collect);
         commonPage.setPageNum(page);
         commonPage.setTotalPage(p.getTotal());
         return commonPage;
@@ -102,6 +108,7 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
             throw new BussinessException("参数不能为空");
         }
         GoodInfo goodInfo = goodInfoMapper.selectById(id);
+        goodInfo.setPic(pubUrl + goodInfo.getPic());
         GoodsInfoDTO goodsInfoDTO = BeanUtil.copyProperties(goodInfo, GoodsInfoDTO.class);
         return goodsInfoDTO;
     }

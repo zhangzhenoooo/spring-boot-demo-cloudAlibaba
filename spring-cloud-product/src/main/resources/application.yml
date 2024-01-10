@@ -2,6 +2,10 @@ server:
   port: 8888
   servlet:
     context-path: /cloud-alibaba-product
+    
 spring:
   profiles:
     active: dev
+
+logging:
+  config: classpath:log4j2-spring.xml
