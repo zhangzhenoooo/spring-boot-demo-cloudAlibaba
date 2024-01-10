@@ -3,6 +3,18 @@
 <mapper namespace="com.zhangz.demo.spring.cloud.platform.dao.UserInfoMapper">
 
     <sql id="tableName">user_info</sql>
+
+    <update id="updateStatus">
+        update
+        <include refid="tableName"/>
+        set status = 0
+        where user_id in
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </update>
+
+
     <select id="listByNamePhone" resultType="com.zhangz.demo.spring.cloud.platform.entity.UserInfo">
         select * from
         <include refid="tableName"/>

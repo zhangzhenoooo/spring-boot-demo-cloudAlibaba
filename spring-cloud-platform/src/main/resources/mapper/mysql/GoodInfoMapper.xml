@@ -8,10 +8,10 @@
         select i.* ,c.name as categoryName from good_info i
         left join good_category c on i.category_id = c.id
         where 1=1
-        <if test=" goodsName != null">
+        <if test=" goodsName != null and goodsName != ''">
             and i.name = #{goodsName}
         </if>
-        <if test="categoryId != null">
+        <if test="categoryId != null and categoryId != ''">
             and c.category_id = #{categoryId}
         </if>
     </select>

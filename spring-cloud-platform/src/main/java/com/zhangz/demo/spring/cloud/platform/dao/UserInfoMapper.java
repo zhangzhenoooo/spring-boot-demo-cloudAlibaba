@@ -14,4 +14,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
 
     List<UserInfo> listByNamePhone(@Param("userName") String userName,@Param("phone") String phone, Page p);
+
+    void updateStatus(@Param("userIds") List<String> userIds);
+
 }

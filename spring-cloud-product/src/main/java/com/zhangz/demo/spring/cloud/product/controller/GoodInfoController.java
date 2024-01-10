@@ -16,6 +16,8 @@ import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,7 @@ import java.util.*;
 @Slf4j
 @RequestMapping("/goods")
 @Api(tags = "货物服务")
+@RefreshScope
 public class GoodInfoController {
 
     @Resource
@@ -36,6 +39,9 @@ public class GoodInfoController {
 
     @Resource
     private GoodPropertyService goodPropertyService;
+
+    @Value("${product.domain:http://127.0.0.1:8080}")
+    private String doMain;
 
     @ApiOperation(value = "商品类别列表", notes = "商品类别列表，订单左侧分类列表展示")
     @GetMapping("/category/all")
@@ -50,7 +56,7 @@ public class GoodInfoController {
     @ResponseBody
     public CommonResult goodsCategoryAll(int page, String categoryId, int pageSize) {
         log.info("goodsCategoryAll params");
-        List<GoodInfo> list = goodInfoService.listByCategory(page,pageSize,categoryId);
+        List<GoodInfo> list = goodInfoService.listByCategory(page, pageSize, categoryId);
         return CommonResult.success(list);
     }
 
@@ -70,8 +76,8 @@ public class GoodInfoController {
 
         GoodCategory goodCategory = goodCategoryService.getById(138948);
         detailVO.setCategory(goodCategory);
-        
-        detailVO.setContent("<p>"+goodInfo.getContent()+"</p>");
+
+        detailVO.setContent("<p>" + goodInfo.getContent() + "</p>");
 
         Logistics logistics = JSONObject.parseObject(
             "   {\"details\": [{\"addAmount\": 5.00, \"addNumber\": 1.00, \"firstAmount\": 8.00, \"firstNumber\": 49.00, \"type\": 0, \"userId\": 27 } ], \"feeType\": 3, \"feeTypeStr\": \"按金额\", \"isFree\": false }",
@@ -90,14 +96,13 @@ public class GoodInfoController {
         List<String> pics2 = new ArrayList<>();
         pics2.add(goodInfo.getPic());
         detailVO.setPics2(pics2);
-        
-        if (!StringUtils.isEmpty(goodInfo.getPropertyIds())){
+
+        if (!StringUtils.isEmpty(goodInfo.getPropertyIds())) {
             String[] split = goodInfo.getPropertyIds().split(",");
-            Set<GoodPropertyDTO>  poperites  = goodPropertyService.queryBypropertyIds(new HashSet<>(Arrays.asList(split)));
-            detailVO.setProperties(poperites);   
+            Set<GoodPropertyDTO> poperites = goodPropertyService.queryBypropertyIds(new HashSet<>(Arrays.asList(split)));
+            detailVO.setProperties(poperites);
         }
 
-        
         detailVO.setSkuList(null);
         detailVO.setSubPics(Lists.newArrayList(0));
         return CommonResult.success(detailVO);
@@ -109,7 +114,7 @@ public class GoodInfoController {
     public CommonResult goodsAddition(String goodsId) {
         log.info("detail params goodsId:{}", goodsId);
         // String list =
-        //     "[{\"categoryId\":0,\"id\":107,\"items\":[{\"id\":278,\"name\":\"1\",\"pid\":107,\"price\":0.00},{\"id\":279,\"name\":\"2\",\"pid\":107,\"price\":0.00}],\"name\":\"测试\",\"required\":true,\"type\":0}]";
+        // "[{\"categoryId\":0,\"id\":107,\"items\":[{\"id\":278,\"name\":\"1\",\"pid\":107,\"price\":0.00},{\"id\":279,\"name\":\"2\",\"pid\":107,\"price\":0.00}],\"name\":\"测试\",\"required\":true,\"type\":0}]";
         // List<GoodAddition> goodAdditions = JSONArray.parseArray(list, GoodAddition.class);
         return CommonResult.success();
     }
@@ -117,7 +122,7 @@ public class GoodInfoController {
     // times/schedule
     @PostMapping("/times/schedule")
     @ResponseBody
-    public CommonResult timeSchedule(String busNo,String returnJson) {
+    public CommonResult timeSchedule(String busNo, String returnJson) {
         log.info("detail params goodsId");
         return CommonResult.failed(ResultCode.NO_DATA, "暂无数据");
     }
@@ -127,8 +132,8 @@ public class GoodInfoController {
     @ResponseBody
     public CommonResult price(String propertyChildIds, Integer goodsId) throws BussinessException {
         log.info("detail params price");
-        
-        UserGoodSelect u =   goodInfoService.price(goodsId,propertyChildIds);
+
+        UserGoodSelect u = goodInfoService.price(goodsId, propertyChildIds);
         return CommonResult.success(u);
     }
 

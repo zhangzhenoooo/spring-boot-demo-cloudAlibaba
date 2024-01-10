@@ -44,7 +44,7 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
         commonPage.setPageNum(pageNum);
         commonPage.setTotalPage(page.getTotal());
         commonPage.setPageSize(pageSize);
-        commonPage.setTotalPage(page.getPages());
+        commonPage.setTotal(page.getTotal());
         return commonPage;
     }
 

@@ -8,6 +8,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,7 +29,11 @@ import java.util.Date;
 @TableName("good_info")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@Component
 public class GoodInfo implements Serializable {
+    @Value("${product.domain:http://127.0.0.1:8080}")
+    @TableField(exist = false)
+    private String doMain;
 
     @TableId("id")
     private long id;
@@ -158,4 +165,7 @@ public class GoodInfo implements Serializable {
     @TableField("weight")
     private int weight;
 
+    public String getPic() {
+        return doMain + pic;
+    }
 }

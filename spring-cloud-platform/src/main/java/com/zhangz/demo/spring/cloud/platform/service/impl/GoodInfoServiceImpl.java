@@ -60,6 +60,7 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         CommonPage commonPage = new CommonPage();
         commonPage.setList(collect);
         commonPage.setPageNum(page);
+        commonPage.setTotal(p.getTotal());
         commonPage.setTotalPage(p.getTotal());
         return commonPage;
     }
