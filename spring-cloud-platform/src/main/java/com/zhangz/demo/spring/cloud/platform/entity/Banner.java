@@ -1,7 +1,7 @@
 /**
  * Copyright 2024 json.cn
  */
-package com.zhangz.demo.spring.cloud.product.entity;
+package com.zhangz.demo.spring.cloud.platform.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

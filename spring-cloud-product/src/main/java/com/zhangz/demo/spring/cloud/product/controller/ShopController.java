@@ -2,14 +2,16 @@ package com.zhangz.demo.spring.cloud.product.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zhangz.demo.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.product.dto.ShopInfoVO;
 import com.zhangz.demo.spring.cloud.product.dto.TenantConfigDTO;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO;
 import com.zhangz.demo.spring.cloud.product.entity.Banner;
 import com.zhangz.demo.spring.cloud.product.entity.ShopInfo;
-import com.zhangz.demo.spring.cloud.product.dto.ShopInfoVO;
+import com.zhangz.demo.spring.cloud.product.service.BannerService;
 import com.zhangz.demo.spring.cloud.product.service.ShoppingCartService;
-import com.zhangz.demo.spring.cloud.common.api.CommonResult;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +27,9 @@ public class ShopController {
     @Resource
     private ShoppingCartService shoppingCartService;
 
- 
+    @Resource
+    private BannerService bannerService;
+
     @GetMapping("/configById")
     @ResponseBody
     public CommonResult configById(@RequestParam("tenantId") String tenantId) {
@@ -54,11 +58,8 @@ public class ShopController {
     @GetMapping("/banner/list")
     @ResponseBody
     public CommonResult bannerList() {
-        String str =
-            "[{\"businessId\":2,\"dateAdd\":\"2020-08-14 10:15:12\",\"id\":116787,\"linkType\":0,\"paixu\":0,\"picUrl\":\"https://dcdn.it120.cc/2020/08/14/1cc1be28-e8f2-405b-9e43-a472677762b2.png\",\"shopId\":0,\"status\":0,\"statusStr\":\"显示\",\"title\":\"2\",\"type\":\"2\",\"userId\":27},{\"businessId\":1,\"dateAdd\":\"2020-08-14 10:14:59\",\"id\":116786,\"linkType\":0,\"paixu\":0,\"picUrl\":\"https://dcdn.it120.cc/2020/08/14/a6e9e0ae-6256-457e-82e4-71f400239205.png\",\"shopId\":0,\"status\":0,\"statusStr\":\"显示\",\"title\":\"1\",\"type\":\"1\",\"userId\":27}]";
-        List<Banner> list = JSONArray.parseArray(str, Banner.class);
-
-        return CommonResult.success(list);
+        List<Banner> bannerList = bannerService.listActive();
+        return CommonResult.success(bannerList);
     }
 
  

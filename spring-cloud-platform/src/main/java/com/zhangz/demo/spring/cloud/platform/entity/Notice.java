@@ -1,7 +1,7 @@
 /**
- * Copyright 2024 json.cn
+ * Copyright 2023 json.cn
  */
-package com.zhangz.demo.spring.cloud.product.entity;
+package com.zhangz.demo.spring.cloud.platform.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,10 +9,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.io.Serializable;
 
 /**
- * Auto-generated: 2024-01-11 10:40:37
+ * Auto-generated: 2023-12-08 16:56:6
  *
  * @author json.cn (i@json.cn)
  * @website http://www.json.cn/java2pojo/
@@ -21,31 +21,33 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("banner")
+@TableName("notice")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Banner {
+public class Notice implements Serializable {
 
     @TableId("id")
-    private long id;
-    @TableField("business_id")
-    private int businessId;
+    private int id;
+
+    @TableField("content")
+    private String content;
+
     @TableField("date_add")
     private String dateAdd;
-    @TableField("link_type")
-    private int linkType;
-    @TableField("paixu")
-    private int paixu;
-    @TableField("pic_url")
-    private String picUrl;
-    @TableField("shop_id")
-    private int shopId;
-    @TableField("status")
-    private int status;
+
+    @TableField("is_remind")
+    private int isRemind;
+
+    @TableField("is_show")
+    private int isShow;
+
+    @TableField("remind_uid")
+    private int remindUid;
+
     @TableField("title")
     private String title;
-    @TableField("type")
-    private String type;
+
     @TableField("user_id")
     private int userId;
+
 }

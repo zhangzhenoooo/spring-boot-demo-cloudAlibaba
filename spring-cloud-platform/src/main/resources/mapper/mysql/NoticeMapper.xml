@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangz.demo.spring.cloud.platform.dao.NoticeMapper">
+
+    <sql id="tableName">notice</sql>
+
+    <select id="pageList" resultType="com.zhangz.demo.spring.cloud.platform.entity.Notice">
+        select * from
+        <include refid="tableName"/>
+        where 1=1
+        <if test="null != title and title != '' ">
+            and title = #{title}
+        </if>
+        <if test="null != dataAddFrom and dataAddFrom != '' ">
+            and date_add >= #{dataAddFrom}
+        </if>
+        <if test="null != dataAddTo and dataAddTo != '' ">
+            and date_add &lt; #{dataAddTo}
+        </if>
+    </select>
+    <select id="getMaxId" resultType="java.lang.Integer">
+        select COALESCE(MAX(id), 10000) from
+        <include refid="tableName"/>
+    </select>
+
+</mapper>

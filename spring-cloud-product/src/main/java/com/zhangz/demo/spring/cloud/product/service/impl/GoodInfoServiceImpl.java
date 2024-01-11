@@ -42,8 +42,8 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
     @Resource
     private GoodPropertyService goodPropertyService;
 
-    @Value("${product.domain:http://127.0.0.1:8080}")
-    private String doMain;
+    @Value("${custome.pubUrl:null}")
+    private String pubUrl;
 
     @Override
     public List<GoodInfo> listByCategory(int page, int pageSize, String categoryId) {
@@ -52,7 +52,7 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         }
         int from = (page - 1) * pageSize;
         List<GoodInfo> goodInfoList = goodInfoMapper.listByCategory(from, pageSize, categoryId);
-        return goodInfoList.stream().map(g -> g.setPic(doMain + g.getPic())).collect(Collectors.toList());
+        return goodInfoList.stream().map(g -> g.setPic(pubUrl + g.getPic())).collect(Collectors.toList());
     }
 
     @Override

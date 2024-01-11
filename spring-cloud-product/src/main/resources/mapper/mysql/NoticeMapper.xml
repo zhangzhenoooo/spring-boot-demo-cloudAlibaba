@@ -3,7 +3,14 @@
 <mapper namespace="com.zhangz.demo.spring.cloud.product.dao.NoticeMapper">
 
     <sql id="tableName">notice</sql>
-    
-    
-    
+    <select id="lastOne" resultType="com.zhangz.demo.spring.cloud.product.entity.Notice">
+        SELECT *
+        FROM
+        <include refid="tableName"/>
+        where is_show = 0
+        ORDER BY date_add DESC
+        LIMIT 1;
+    </select>
+
+
 </mapper>
