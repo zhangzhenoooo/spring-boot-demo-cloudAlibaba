@@ -1,13 +1,17 @@
 package com.zhangz.demo.spring.cloud.product.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Pair;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Sets;
+import com.zhangz.demo.spring.cloud.product.config.CustomConfig;
 import com.zhangz.demo.spring.cloud.product.config.DefaultShopConfig;
 import com.zhangz.demo.spring.cloud.product.constant.CyTableStatusEnum;
 import com.zhangz.demo.spring.cloud.product.constant.OrderStatusEnum;
 import com.zhangz.demo.spring.cloud.product.dao.OrderInfoMapper;
+import com.zhangz.demo.spring.cloud.product.dto.order.OrderDetailDTO;
 import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
 import com.zhangz.demo.spring.cloud.product.entity.OrderGood;
 import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
@@ -26,6 +30,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
  * @Author：zhangz
@@ -55,9 +60,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Resource
     private DefaultShopConfig defaultShopConfig;
 
-
     @Resource
     private UserInfoService userInfoService;
+
+    @Resource
+    private CustomConfig customConfig;
 
     @Override
     public OrderInfo createOrder() {
@@ -146,7 +153,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfoVO.setShopNameZt(defaultShopConfig.getShopName());
         orderInfoVO.setStatusStr(OrderStatusEnum.getDescByState(orderInfo.getOrderStatus()));
         List<OrderedGoodsVO> orderedGoodsVOList = new ArrayList<>();
-        List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.CHECKED.getState());
+        List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.getUserOrderStatus());
         if (CollectionUtil.isEmpty(orderGoods)) {
             return Pair.of(null, null);
         }
@@ -161,7 +168,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             GoodInfo goodInfo = goodInfoService.getById(orderGood.getGoodId());
             if (null != goodInfo) {
                 goodsVO.setGoodsName(goodInfo.getName());
-                goodsVO.setPic(goodInfo.getPic());
+                goodsVO.setPic(customConfig.getPubUrl() + goodInfo.getPic());
             }
 
             orderedGoodsVOList.add(goodsVO);
@@ -180,7 +187,18 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         }
         orderInfo.setOrderStatus(OrderStatusEnum.PAYED.getState());
         orderInfo.setPayTime(DateUtil.formatDateTime(new Date()));
+        BigDecimal amount = orderGoodService.getAmount(orderId);
+        orderInfo.setAmount(amount);
+        orderInfo.setAmountReal(amount);
         orderInfoMapper.updateById(orderInfo);
         log.info("订单【{}】支付成功", orderId);
+    }
+
+    @Override
+    public OrderDetailDTO detail(String id, String hxNumber, String peisongOrderId) {
+        OrderInfo orderInfo = orderInfoMapper.selectById(id);
+        OrderDetailDTO dto = new OrderDetailDTO();
+        dto.setOrderInfo(orderInfo);
+        return dto;
     }
 }

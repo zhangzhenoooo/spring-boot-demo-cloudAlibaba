@@ -4,13 +4,24 @@
 
     <sql id="tableName">order_good</sql>
 
+
+    <select id="getAmount" resultType="java.math.BigDecimal">
+        select sum(price) from
+        <include refid="tableName"/>
+        where order_id = #{orderId}
+    </select>
+
     <select id="queryByOrderIdAndStatus" resultType="com.zhangz.demo.spring.cloud.product.entity.OrderGood">
         select * from
         <include refid="tableName"/>
         where order_id = #{orderId}
-        <if test="null != status">
-            and status = #{status}
+        <if test="null != status and  status.size() > 0">
+            and status in
+            <foreach collection="status" item="item" separator="," open="(" close=")" index="index">
+                #{item}
+            </foreach>
         </if>
+
     </select>
 
     <delete id="deleteByOrderId">

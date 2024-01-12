@@ -1,7 +1,9 @@
 package com.zhangz.demo.spring.cloud.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhangz.demo.spring.cloud.product.dto.order.OrderDetailDTO;
 import com.zhangz.demo.spring.cloud.product.entity.OrderInfo;
+import com.zhangz.demo.spring.cloud.product.vo.OrderInfoVO;
 import com.zhangz.demo.spring.cloud.product.vo.OrderedVO;
 import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 
@@ -36,5 +38,6 @@ public interface OrderInfoService extends IService<OrderInfo> {
     OrderedVO listByUserIdAndStatus(String token, Integer status) throws BussinessException;
 
     void pay(String token, BigDecimal money, String remark, String orderId) throws BussinessException;
-    
+
+    OrderDetailDTO detail(String id, String hxNumber, String peisongOrderId);
 }

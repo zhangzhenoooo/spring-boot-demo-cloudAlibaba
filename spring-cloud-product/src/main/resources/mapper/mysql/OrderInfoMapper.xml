@@ -23,12 +23,13 @@
         <if test="null != orderStatus">
             and order_status = #{orderStatus}
         </if>
+        order by ordered_time desc
     </select>
-    
+
     <select id="getDayCountUserOrder" resultType="java.lang.Integer">
         select count(*) from
         <include refid="tableName"/>
-        where user_id = #{userId} and create_time >=  #{date} || '00:00:00' and create_time &lt; #{date} || '23:59:59'
+        where user_id = #{userId} and create_time >= #{date} || '00:00:00' and create_time &lt; #{date} || '23:59:59'
     </select>
 
 </mapper>

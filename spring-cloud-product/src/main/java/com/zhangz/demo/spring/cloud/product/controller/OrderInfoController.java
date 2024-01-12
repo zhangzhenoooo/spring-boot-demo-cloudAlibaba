@@ -1,10 +1,11 @@
 package com.zhangz.demo.spring.cloud.product.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zhangz.demo.spring.cloud.product.service.OrderInfoService;
-import com.zhangz.demo.spring.cloud.product.vo.OrderedVO;
 import com.zhangz.demo.spring.cloud.common.api.CommonResult;
 import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.product.dto.order.OrderDetailDTO;
+import com.zhangz.demo.spring.cloud.product.service.OrderInfoService;
+import com.zhangz.demo.spring.cloud.product.vo.OrderedVO;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class OrderInfoController {
     @Resource
     private OrderInfoService orderInfoService;
 
-    // order/list
+
     /**
      * @return
      */
@@ -48,7 +49,8 @@ public class OrderInfoController {
     @ResponseBody
     public CommonResult detail(String id, String token, String hxNumber, String peisongOrderId) {
         log.info("进入订单详情，入参 id：{}，token：{}，hxNumber ： {}，peisongOrderId ：{}", id, token, hxNumber, peisongOrderId);
-        return CommonResult.success();
+        OrderDetailDTO detail = orderInfoService.detail(id, hxNumber, peisongOrderId);
+        return CommonResult.success(detail);
     }
 
 

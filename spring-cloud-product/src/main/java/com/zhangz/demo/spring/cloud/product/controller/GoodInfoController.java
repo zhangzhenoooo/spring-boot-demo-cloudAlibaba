@@ -1,22 +1,22 @@
 package com.zhangz.demo.spring.cloud.product.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.zhangz.demo.spring.cloud.common.api.CommonResult;
+import com.zhangz.demo.spring.cloud.common.api.ResultCode;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import com.zhangz.demo.spring.cloud.product.dto.GoodPropertyDTO;
 import com.zhangz.demo.spring.cloud.product.dto.UserGoodSelect;
-import com.zhangz.demo.spring.cloud.product.entity.*;
+import com.zhangz.demo.spring.cloud.product.entity.GoodCategory;
+import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
+import com.zhangz.demo.spring.cloud.product.entity.Logistics;
 import com.zhangz.demo.spring.cloud.product.service.GoodCategoryService;
 import com.zhangz.demo.spring.cloud.product.service.GoodInfoService;
 import com.zhangz.demo.spring.cloud.product.service.GoodPropertyService;
 import com.zhangz.demo.spring.cloud.product.vo.ShopDetailVO;
-import com.zhangz.demo.spring.cloud.common.api.CommonResult;
-import com.zhangz.demo.spring.cloud.common.api.ResultCode;
-import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +40,6 @@ public class GoodInfoController {
     @Resource
     private GoodPropertyService goodPropertyService;
 
-    @Value("${product.domain:http://127.0.0.1:8080}")
-    private String doMain;
 
     @ApiOperation(value = "商品类别列表", notes = "商品类别列表，订单左侧分类列表展示")
     @GetMapping("/category/all")

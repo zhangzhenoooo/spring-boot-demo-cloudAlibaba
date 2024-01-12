@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 /*
  * @Author：zhangz
@@ -31,7 +33,7 @@ public class OrderGoodServiceImpl extends ServiceImpl<OrderGoodMapper, OrderGood
     private OrderGoodMapper orderGoodMapper;
 
     @Override
-    public List<OrderGood> queryByOrderIdAndStatus(String orderId,Integer status) {
+    public List<OrderGood> queryByOrderIdAndStatus(String orderId, Set<Integer> status) {
         return orderGoodMapper.queryByOrderIdAndStatus(orderId,status);
     }
 
@@ -43,5 +45,10 @@ public class OrderGoodServiceImpl extends ServiceImpl<OrderGoodMapper, OrderGood
     @Override
     public void changeStatusToOrdered(String orderId) {
         orderGoodMapper.changeStatusToOrdered(orderId);
+    }
+
+    @Override
+    public BigDecimal getAmount(String orderId) {
+        return orderGoodMapper.getAmount(orderId);
     }
 }

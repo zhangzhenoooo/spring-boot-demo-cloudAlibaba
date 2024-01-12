@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Pair;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Sets;
 import com.zhangz.demo.spring.cloud.product.constant.CyTableStatusEnum;
 import com.zhangz.demo.spring.cloud.product.constant.OrderStatusEnum;
 import com.zhangz.demo.spring.cloud.product.dto.shoppingcart.ShoppingCartInfoDTO;
@@ -96,7 +97,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         int number = 0;
         BigDecimal amount = new BigDecimal("0");
         // 没有下单的 或者加菜
-        List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.NEED_CHECK.getState());
+        List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), Sets.newHashSet(CyTableStatusEnum.NEED_CHECK.getState()));
         // 获取goods详细信息
         Pair<Pair<Integer, BigDecimal>, List<ShoppingGoods>> goodsDetailPairNo = getGoodsDetail(orderGoods, number, amount);
         Pair<Integer, BigDecimal> keyNo = goodsDetailPairNo.getKey();
@@ -104,7 +105,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         amount = keyNo.getValue();
         List<ShoppingGoods> items = goodsDetailPairNo.getValue();
 
-        List<OrderGood> orderedGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.CHECKED.getState());
+        List<OrderGood> orderedGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), Sets.newHashSet(CyTableStatusEnum.CHECKED.getState()));
         Pair<Pair<Integer, BigDecimal>, List<ShoppingGoods>> goodsDetailPair = getGoodsDetail(orderedGoods, number, amount);
         Pair<Integer, BigDecimal> key = goodsDetailPair.getKey();
         number = key.getKey();
@@ -180,6 +181,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         OrderInfo orderInfo = orderInfoService.getOrderStileInCart();
         orderInfo.setOrderStatus(OrderStatusEnum.ORDERED.getState());
         orderInfo.setOrderedTime(DateUtil.formatDateTime(new Date()));
+        BigDecimal amount = orderGoodService.getAmount(orderInfo.getId());
+        orderInfo.setAmount(amount);
+        orderInfo.setAmountReal(amount);
         orderInfoService.updateById(orderInfo);
         /**
          * 修改菜品状态为已下单

@@ -2,6 +2,7 @@ package com.zhangz.demo.spring.cloud.product.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhangz.demo.spring.cloud.product.config.CustomConfig;
 import com.zhangz.demo.spring.cloud.product.dao.GoodInfoMapper;
 import com.zhangz.demo.spring.cloud.product.dto.UserGoodSelect;
 import com.zhangz.demo.spring.cloud.product.entity.GoodInfo;
@@ -42,8 +43,8 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
     @Resource
     private GoodPropertyService goodPropertyService;
 
-    @Value("${custome.pubUrl:null}")
-    private String pubUrl;
+    @Resource
+    private CustomConfig customConfig;
 
     @Override
     public List<GoodInfo> listByCategory(int page, int pageSize, String categoryId) {
@@ -52,7 +53,7 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         }
         int from = (page - 1) * pageSize;
         List<GoodInfo> goodInfoList = goodInfoMapper.listByCategory(from, pageSize, categoryId);
-        return goodInfoList.stream().map(g -> g.setPic(pubUrl + g.getPic())).collect(Collectors.toList());
+        return goodInfoList.stream().map(g -> g.setPic(customConfig.getPubUrl() + g.getPic())).collect(Collectors.toList());
     }
 
     @Override

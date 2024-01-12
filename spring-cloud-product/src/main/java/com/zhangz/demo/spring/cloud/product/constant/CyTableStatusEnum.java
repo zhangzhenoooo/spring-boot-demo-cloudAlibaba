@@ -14,15 +14,14 @@ package com.zhangz.demo.spring.cloud.product.constant;
  * @Filename：OrderStatusEnum
  */
 
-public enum CyTableStatusEnum {
-     NEED_CHECK(0,"待下单"),
-    CHECKED(1,"已经下单"),
-    COOKING(2,"制作中"),
-    SERVED(3,"已上菜"),
-    PAYED(4,"已支付"),
-    ;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-  private int state;
+public enum CyTableStatusEnum {
+    NEED_CHECK(0, "待下单"), CHECKED(1, "已经下单"), COOKING(2, "制作中"), SERVED(3, "已上菜"), PAYED(4, "已支付"),;
+
+    private int state;
     private String desc;
 
     CyTableStatusEnum(int state, String desc) {
@@ -44,5 +43,11 @@ public enum CyTableStatusEnum {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public static Set<Integer> getUserOrderStatus() {
+        Set<Integer> collect = Arrays.stream(CyTableStatusEnum.values()).map(CyTableStatusEnum::getState).collect(Collectors.toSet());
+        collect.remove(NEED_CHECK.getState());
+        return collect;
     }
 }

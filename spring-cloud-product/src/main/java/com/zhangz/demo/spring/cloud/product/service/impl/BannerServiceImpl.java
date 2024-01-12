@@ -1,6 +1,7 @@
 package com.zhangz.demo.spring.cloud.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhangz.demo.spring.cloud.product.config.CustomConfig;
 import com.zhangz.demo.spring.cloud.product.dao.BannerMapper;
 import com.zhangz.demo.spring.cloud.product.entity.Banner;
 import com.zhangz.demo.spring.cloud.product.service.BannerService;
@@ -33,13 +34,13 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
 
     @Resource
     private BannerMapper bannerMapper;
-    @Value("${custome.pubUrl:null}")
-    private String pubUrl;
+    @Resource
+    private CustomConfig customConfig;
 
     @Override
     public List<Banner> listActive() {
         List<Banner> banners = bannerMapper.listActive();
-        List<Banner> collect = banners.stream().map(g -> g.setPicUrl(pubUrl + g.getPicUrl())).collect(Collectors.toList());
+        List<Banner> collect = banners.stream().map(g -> g.setPicUrl(customConfig.getPubUrl() + g.getPicUrl())).collect(Collectors.toList());
         return collect;
     }
 }
