@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.platform.config.ShopInfoConfig;
 import com.zhangz.demo.spring.cloud.platform.constant.GoodsInfoEnum;
 import com.zhangz.demo.spring.cloud.platform.dao.GoodInfoMapper;
 import com.zhangz.demo.spring.cloud.platform.dto.GoodsInfoDTO;
@@ -48,6 +49,9 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
 
     @Value("${custome.pubUrl}")
     private String pubUrl;
+
+    @Resource
+    private ShopInfoConfig shopInfoConfig;
 
     @Override
     public CommonPage listByNameCategoryName(String goodsName, String categoryName, Integer page, Integer pageSize) {
@@ -91,7 +95,7 @@ public class GoodInfoServiceImpl extends ServiceImpl<GoodInfoMapper, GoodInfo> i
         goodInfo.setDateAdd(DateUtil.formatDateTime(new Date()));
         goodInfo.setRecommendStatusStr("普通");
         goodInfo.setStatusStr(GoodsInfoEnum.getDescByState(goodInfo.getStatus()));
-
+        goodInfo.setShopId(Math.toIntExact(shopInfoConfig.getBase().getId()));
         if (null != id) {
             goodInfo.setId(id);
             goodInfoMapper.updateById(goodInfo);

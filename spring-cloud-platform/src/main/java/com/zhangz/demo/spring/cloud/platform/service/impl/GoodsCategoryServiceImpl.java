@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhangz.demo.spring.cloud.common.api.CommonPage;
 import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
+import com.zhangz.demo.spring.cloud.platform.config.ShopInfoConfig;
 import com.zhangz.demo.spring.cloud.platform.dao.GoodsCategoryMapper;
 import com.zhangz.demo.spring.cloud.platform.entity.GoodsCategory;
 import com.zhangz.demo.spring.cloud.platform.service.GoodsCategoryService;
@@ -31,14 +32,16 @@ import java.util.List;
 public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, GoodsCategory> implements GoodsCategoryService {
     @Resource
     private GoodsCategoryMapper goodsCategoryMapper;
+    @Resource
+    private ShopInfoConfig shopInfoConfig;
 
     @Override
-    public CommonPage<GoodsCategory> listByShopIdAndIdName(Integer shopid, String id,String categoryName, Integer pageNum, Integer pageSize) {
+    public CommonPage<GoodsCategory> listByShopIdAndIdName(Integer shopid, String id, String categoryName, Integer pageNum, Integer pageSize) {
         Page page = new Page();
         page.setCurrent(pageNum);
         page.setSize(pageSize);
 
-        List<GoodsCategory> goodsCategoryList = goodsCategoryMapper.listByShopIdAndIdName(categoryName,shopid, id, page);
+        List<GoodsCategory> goodsCategoryList = goodsCategoryMapper.listByShopIdAndIdName(categoryName, shopid, id, page);
         CommonPage commonPage = new CommonPage();
         commonPage.setList(goodsCategoryList);
         commonPage.setPageNum(pageNum);
@@ -69,6 +72,7 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
             goodsCategory.setName(name);
             goodsCategory.setShopId(Math.toIntExact(shopid));
             goodsCategory.setUserId(27);
+            goodsCategory.setShopId(Math.toIntExact(shopInfoConfig.getBase().getId()));
         } else {
             // 更新
             goodsCategory = goodsCategoryMapper.selectById(id);

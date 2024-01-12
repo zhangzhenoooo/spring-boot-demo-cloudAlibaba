@@ -1,13 +1,12 @@
 package com.zhangz.demo.spring.cloud.product.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Pair;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Sets;
+import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import com.zhangz.demo.spring.cloud.product.config.CustomConfig;
-import com.zhangz.demo.spring.cloud.product.config.DefaultShopConfig;
+import com.zhangz.demo.spring.cloud.product.config.ShopInfoConfig;
 import com.zhangz.demo.spring.cloud.product.constant.CyTableStatusEnum;
 import com.zhangz.demo.spring.cloud.product.constant.OrderStatusEnum;
 import com.zhangz.demo.spring.cloud.product.dao.OrderInfoMapper;
@@ -23,14 +22,12 @@ import com.zhangz.demo.spring.cloud.product.vo.OrderInfoVO;
 import com.zhangz.demo.spring.cloud.product.vo.OrderedGoodsVO;
 import com.zhangz.demo.spring.cloud.product.vo.OrderedVO;
 import com.zhangz.demo.spring.cloud.product.vo.user.UserInfoVO;
-import com.zhangz.demo.spring.cloud.common.exception.BussinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /*
  * @Author：zhangz
@@ -58,13 +55,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     private GoodInfoService goodInfoService;
 
     @Resource
-    private DefaultShopConfig defaultShopConfig;
-
-    @Resource
     private UserInfoService userInfoService;
 
     @Resource
     private CustomConfig customConfig;
+
+    @Resource
+    private ShopInfoConfig shopInfoConfig;
 
     @Override
     public OrderInfo createOrder() {
@@ -150,7 +147,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfoVO.setAmountReal(orderInfo.getAmount());
         orderInfoVO.setGoodsNumber(orderInfo.getGoodsNumber());
         orderInfoVO.setTableCode("141341");
-        orderInfoVO.setShopNameZt(defaultShopConfig.getShopName());
+        orderInfoVO.setShopNameZt(shopInfoConfig.getBase().getName());
         orderInfoVO.setStatusStr(OrderStatusEnum.getDescByState(orderInfo.getOrderStatus()));
         List<OrderedGoodsVO> orderedGoodsVOList = new ArrayList<>();
         List<OrderGood> orderGoods = orderGoodService.queryByOrderIdAndStatus(orderInfo.getId(), CyTableStatusEnum.getUserOrderStatus());
